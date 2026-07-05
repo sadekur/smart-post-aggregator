@@ -68,5 +68,28 @@ class API {
 				'permission_callback' => array( $this, 'is_admin' ),
 			)
 		);
+
+		/**
+		 * Duplicate review APIs
+		 */
+		register_rest_route(
+			$this->namespace,
+			'/duplicates',
+			array(
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => array( new Duplicate(), 'list' ),
+				'permission_callback' => array( $this, 'is_admin' ),
+			)
+		);
+
+		register_rest_route(
+			$this->namespace,
+			'/duplicates/(?P<id>\d+)/resolve',
+			array(
+				'methods'             => WP_REST_Server::CREATABLE,
+				'callback'            => array( new Duplicate(), 'resolve' ),
+				'permission_callback' => array( $this, 'is_admin' ),
+			)
+		);
 	}
 }
