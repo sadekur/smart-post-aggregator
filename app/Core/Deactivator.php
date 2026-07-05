@@ -4,6 +4,7 @@ namespace SmartPostAggregator\Core;
 defined( 'ABSPATH' ) || exit;
 
 use SmartPostAggregator\Models\Database;
+use SmartPostAggregator\Controllers\Common\Cron;
 
 class Deactivator {
 
@@ -14,6 +15,7 @@ class Deactivator {
 		$deactivater = new self();
 
 		$deactivater->remove_db_version();
+		$deactivater->remove_cron();
 	}
 
 	/**
@@ -21,5 +23,13 @@ class Deactivator {
 	 */
 	protected function remove_db_version() {
 		delete_option( 'smart-post-aggregator_db_version' );
+	}
+
+	/**
+	 * Unschedules the source-fetch sweep so it doesn't keep firing while the
+	 * plugin is inactive.
+	 */
+	protected function remove_cron() {
+		wp_clear_scheduled_hook( Cron::SWEEP_HOOK );
 	}
 }
