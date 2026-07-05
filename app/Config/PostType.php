@@ -116,7 +116,12 @@ class PostType {
 			'_spa_similarity_score',
 			$common_args + array(
 				'type'              => 'number',
-				'sanitize_callback' => 'floatval',
+				// `floatval` is a PHP internal function; WP's sanitize_meta()
+				// calls the callback with 4 args (value, key, object_type,
+				// object_subtype), and since PHP 8 internal functions throw
+				// ArgumentCountError when called with more args than declared.
+				// Wrap it so only the value is forwarded.
+				'sanitize_callback' => array( $this, 'sanitize_similarity_score' ),
 			)
 		);
 
