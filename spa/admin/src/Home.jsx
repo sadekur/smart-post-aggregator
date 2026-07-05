@@ -14,7 +14,7 @@ const Home = () => {
 		const fetch_data = async () => {
 			spa_modal(true);
 			try {
-				const url = `${SPA_PLUGIN_ADMIN.rest_root}wp/v2/spa_content?page=${currentPage}&per_page=${posts_per_page}&_embed`;
+				const url = `${SPA_PLUGIN_ADMIN.api_base}/content?page=${currentPage}&per_page=${posts_per_page}`;
 				const response = await fetch(url, {
 					headers: { 'X-WP-Nonce': SPA_PLUGIN_ADMIN.nonce },
 				});
@@ -23,14 +23,7 @@ const Home = () => {
 
 				setTotalPages(parseInt(response.headers.get('X-WP-TotalPages'), 10) || 1);
 
-				const normalized = Array.isArray(data) ? data.map((post) => ({
-					id: post.id,
-					title: post.title?.rendered ?? '',
-					link: post.link,
-					thumbnail: post._embedded?.['wp:featuredmedia']?.[0]?.source_url ?? null,
-				})) : [];
-
-				setPosts(normalized);
+				setPosts(Array.isArray(data) ? data : []);
 			} catch (error) {
 				console.error('Error fetching aggregated content:', error);
 				setPosts([]);
