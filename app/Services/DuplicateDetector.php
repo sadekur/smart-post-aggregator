@@ -176,8 +176,9 @@ class DuplicateDetector {
 	 * @param float  $threshold
 	 * @param string $algorithm
 	 * @param string $status
+	 * @param array  $settings Result of get_settings().
 	 */
-	protected function record( $post_id, $matched_id, $score_percent, $threshold, $algorithm, $status ) {
+	protected function record( $post_id, $matched_id, $score_percent, $threshold, $algorithm, $status, array $settings ) {
 
 		update_post_meta( $post_id, '_spa_duplicate_status', $status );
 		update_post_meta( $post_id, '_spa_similarity_score', round( $score_percent, 2 ) );
@@ -190,6 +191,17 @@ class DuplicateDetector {
 			return;
 		}
 
+		$resolution = 'duplicate' === $status ? 'marked' : 'queued';
+
+		// "Mark" is the safe default: high-confidence duplicates are kept
+		// (flagged) rather than silently dropped, since discarding is hard to
+		// reverse. Admins who'd rather auto-discard them can opt into 'trash'
+		// via Settings — still recoverable from the WP trash, unlike a hard delete.
+		if ( 'duplicate' === $status && 'trash' === $settings['default_resolution'] ) {
+			wp_trash_post( $post_id );
+			$resolution = 'ignored';
+		}
+
 		( new DuplicateLog() )->insert_row(
 			array(
 				'new_post_id'       => $post_id,
@@ -197,10 +209,7 @@ class DuplicateDetector {
 				'algorithm'         => $algorithm,
 				'score'             => round( $score_percent, 2 ),
 				'threshold_at_time' => $threshold,
-				// "Mark" over "Ignore" as the safe default: ignoring is destructive
-				// and hard to reverse, so borderline/high-confidence matches are
-				// kept (flagged) rather than silently dropped.
-				'resolution'        => 'duplicate' === $status ? 'marked' : 'queued',
+				'resolution'        => $resolution,
 			)
 		);
 	}
