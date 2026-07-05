@@ -10,8 +10,8 @@ use SmartPostAggregator\Services\Fetchers\FetcherFactory;
  * Pulls a single source's content in: resolves its fetcher, fetches, and
  * creates a `spa_content` post for every item not already ingested (matched
  * on `_spa_external_id`, so re-running the sweep never re-inserts the same
- * item). No near-duplicate detection against other content yet — that's a
- * separate pass once `Services/Similarity/*` exists.
+ * item). Every newly created post is then handed to `DuplicateDetector` to
+ * flag near-duplicates against existing content.
  */
 class ContentAggregator {
 
