@@ -4,7 +4,6 @@ namespace SmartPostAggregator\Controllers\Common;
 defined( 'ABSPATH' ) || exit;
 
 use WP_REST_Server;
-use SmartPostAggregator\API\Option;
 use SmartPostAggregator\API\Content;
 use SmartPostAggregator\Traits\Hook;
 use SmartPostAggregator\Traits\Auth;
