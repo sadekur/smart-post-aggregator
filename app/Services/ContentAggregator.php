@@ -104,5 +104,7 @@ class ContentAggregator {
 		update_post_meta( $post_id, '_spa_external_id', sanitize_text_field( $item['external_id'] ) );
 		update_post_meta( $post_id, '_spa_content_hash', hash( 'sha256', wp_strip_all_tags( $content ) ) );
 		update_post_meta( $post_id, '_spa_fetched_at', current_time( 'mysql' ) );
+
+		( new DuplicateDetector() )->detect( $post_id );
 	}
 }
