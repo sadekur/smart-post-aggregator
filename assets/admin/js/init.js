@@ -1,4 +1,4 @@
-Object.keys(spa_PLUGIN_ADMIN.menus).forEach(key => {
+Object.keys(SPA_PLUGIN_ADMIN.menus).forEach(key => {
 
     document.querySelectorAll(`.toplevel_page_${key} .wp-submenu.wp-submenu-wrap > li`).forEach(function(item) {
 

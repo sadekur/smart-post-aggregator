@@ -14,9 +14,9 @@ const Home = () => {
 		const fetch_data = async () => {
 			spa_modal(true);
 			try {
-				const url = `${spa_PLUGIN_ADMIN.rest_root}wp/v2/spa_content?page=${currentPage}&per_page=${posts_per_page}&_embed`;
+				const url = `${SPA_PLUGIN_ADMIN.rest_root}wp/v2/spa_content?page=${currentPage}&per_page=${posts_per_page}&_embed`;
 				const response = await fetch(url, {
-					headers: { 'X-WP-Nonce': spa_PLUGIN_ADMIN.nonce },
+					headers: { 'X-WP-Nonce': SPA_PLUGIN_ADMIN.nonce },
 				});
 
 				const data = await response.json();

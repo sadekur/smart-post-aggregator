@@ -5,14 +5,14 @@ jQuery(function($) {
 		spa_modal();
 	    
 	    $.ajax({
-	    	url: `${spa_PLUGIN_ADMIN.api_base}/option`,
+	    	url: `${SPA_PLUGIN_ADMIN.api_base}/option`,
 	    	type: 'DELETE',
 	    	dataType: 'JSON',
 	    	data: {
 	    		key: $(this).data('option_key')
 	    	},
 	    	headers: {
-	    		'X-WP-Nonce': spa_PLUGIN_ADMIN.nonce,
+	    		'X-WP-Nonce': SPA_PLUGIN_ADMIN.nonce,
 	    	},
 	    	success: (resp) => {
 	    		console.log('Settings deleted:', resp);
@@ -45,7 +45,7 @@ jQuery(function($) {
 		});
 
 		$.ajax({
-			url: `${spa_PLUGIN_ADMIN.api_base}/option`,
+			url: `${SPA_PLUGIN_ADMIN.api_base}/option`,
 			type: 'POST',
 			dataType: 'JSON',
 			data: {
@@ -53,7 +53,7 @@ jQuery(function($) {
 				value: data
 			},
 			headers: {
-				'X-WP-Nonce': spa_PLUGIN_ADMIN.nonce,
+				'X-WP-Nonce': SPA_PLUGIN_ADMIN.nonce,
 			},
 			success: (resp) => {
 				console.log('Settings saved:', resp);

@@ -78,12 +78,11 @@ class Assets {
 
 		$this->localize_script(
 			'smart-post-aggregator_admin',
-			'spa_PLUGIN_ADMIN',
+			'SPA_PLUGIN_ADMIN',
 			array(
-				'menus'     => $spa_menus,
-				'api_base'  => rest_url( 'smart-post-aggregator/v1' ),
-				'rest_root' => rest_url(),
-				'nonce'     => wp_create_nonce( 'wp_rest' ),
+				'menus'    => $spa_menus,
+				'api_base' => rest_url( 'smart-post-aggregator/v1' ),
+				'nonce'    => wp_create_nonce( 'wp_rest' ),
 			)
 		);
 
