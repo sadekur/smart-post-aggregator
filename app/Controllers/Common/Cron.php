@@ -68,23 +68,33 @@ class Cron {
 	 */
 	public function sweep() {
 
-		$source_model = new Source();
-		$sources      = $source_model->get_rows( array( array( 'status' => 'active' ) ), self::BATCH_SIZE * 3 );
+		if ( $this->get_cache( self::LOCK_KEY ) ) {
+			return;
+		}
 
-		$processed = 0;
+		$this->set_cache( self::LOCK_KEY, 1, self::LOCK_TTL, true );
 
-		foreach ( $sources as $source ) {
+		try {
+			$source_model = new Source();
+			$sources      = $source_model->get_rows( array( array( 'status' => 'active' ) ), self::BATCH_SIZE * 3 );
 
-			if ( $processed >= self::BATCH_SIZE ) {
-				break;
+			$processed = 0;
+
+			foreach ( $sources as $source ) {
+
+				if ( $processed >= self::BATCH_SIZE ) {
+					break;
+				}
+
+				if ( ! $this->is_due( $source ) ) {
+					continue;
+				}
+
+				$this->fetch_source( $source_model, $source );
+				$processed++;
 			}
-
-			if ( ! $this->is_due( $source ) ) {
-				continue;
-			}
-
-			$this->fetch_source( $source_model, $source );
-			$processed++;
+		} finally {
+			$this->delete_cache( self::LOCK_KEY );
 		}
 	}
 
