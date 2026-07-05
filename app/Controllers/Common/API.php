@@ -7,6 +7,7 @@ use WP_REST_Server;
 use SmartPostAggregator\API\Content;
 use SmartPostAggregator\API\Source;
 use SmartPostAggregator\API\Duplicate;
+use SmartPostAggregator\API\Settings;
 use SmartPostAggregator\Traits\Hook;
 use SmartPostAggregator\Traits\Auth;
 use SmartPostAggregator\Traits\Rest;
