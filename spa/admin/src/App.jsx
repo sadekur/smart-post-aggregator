@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import Home from './Home';
 import Sources from './Sources';
+import Review from './Review';
 import Help from './Help';
 import Settings from './Settings';
 
 const TABS = [
 	{ hash: '/home', label: 'Dashboard' },
 	{ hash: '/sources', label: 'Sources' },
+	{ hash: '/review', label: 'Review' },
 	{ hash: '/settings', label: 'Settings' },
 	{ hash: '/help', label: 'Help' },
 ];
