@@ -3,6 +3,9 @@ namespace SmartPostAggregator\Core;
 
 defined( 'ABSPATH' ) || exit;
 
+use SmartPostAggregator\Models\Source;
+use SmartPostAggregator\Models\DuplicateLog;
+
 class Installer {
 
 	/**
