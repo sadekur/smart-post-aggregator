@@ -4,12 +4,10 @@ namespace SmartPostAggregator\Controllers\Common;
 defined( 'ABSPATH' ) || exit;
 
 use SmartPostAggregator\Traits\Hook;
-use SmartPostAggregator\Traits\Asset;
 
 class Init {
 
 	use Hook;
-	use Asset;
 
 	/**
 	 * Constructor to add all hooks.
@@ -17,8 +15,6 @@ class Init {
 	public function __construct() {
 		$this->action( 'wp_head', array( $this, 'modal' ) );
 		$this->action( 'admin_head', array( $this, 'modal' ) );
-		$this->action( 'wp_enqueue_scripts', array( $this, 'add_assets' ) );
-		$this->action( 'admin_enqueue_scripts', array( $this, 'add_assets' ) );
 	}
 
 	public function modal() {
@@ -26,27 +22,5 @@ class Init {
 		<div id="smart-post-aggregator-modal" style="display: none">
 			<img id="smart-post-aggregator-modal-loader" src="' . esc_attr( SPA_ASSETS_URL . 'common/img/loader.gif' ) . '" />
 		</div>';
-	}
-
-	public function add_assets() {
-		global $current_screen;
-
-		if ( isset( $current_screen->base ) && strpos( $current_screen->base, 'smart-post-aggregator' ) !== false || ! is_admin() ) {
-
-			$this->enqueue_script(
-				'tailwind-css',
-				SPA_PLUGIN_URL . 'spa/build/tailwind.bundle.js'
-			);
-
-			$this->enqueue_script(
-				'smart-post-aggregator_common',
-				SPA_ASSETS_URL . 'common/js/init.js'
-			);
-
-			$this->enqueue_style(
-				'smart-post-aggregator_common',
-				SPA_ASSETS_URL . 'common/css/init.css'
-			);
-		}
 	}
 }
