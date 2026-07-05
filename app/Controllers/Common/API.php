@@ -35,7 +35,7 @@ class API {
 				'callback'            => array( new Option(), 'get' ),
 				'args'                => array(
 					'key' => array(
-						'description' => __( 'The option `key` name', 'easysupport' ),
+						'description' => __( 'The option `key` name', 'smart-post-aggregator' ),
 						'required'    => true,
 					),
 				),
@@ -51,11 +51,11 @@ class API {
 				'callback'            => array( new Option(), 'update' ),
 				'args'                => array(
 					'key'   => array(
-						'description' => __( 'The option `key` name', 'easysupport' ),
+						'description' => __( 'The option `key` name', 'smart-post-aggregator' ),
 						'required'    => true,
 					),
 					'value' => array(
-						'description' => __( 'The option `value`', 'easysupport' ),
+						'description' => __( 'The option `value`', 'smart-post-aggregator' ),
 						'required'    => true,
 					),
 				),
@@ -71,7 +71,7 @@ class API {
 				'callback'            => array( new Option(), 'delete' ),
 				'args'                => array(
 					'key' => array(
-						'description' => __( 'The option `key` name', 'easysupport' ),
+						'description' => __( 'The option `key` name', 'smart-post-aggregator' ),
 						'required'    => true,
 					),
 				),
