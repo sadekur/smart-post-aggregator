@@ -92,5 +92,25 @@ class API {
 				'permission_callback' => array( $this, 'is_admin' ),
 			)
 		);
+
+		/**
+		 * Duplicate-detection settings APIs
+		 */
+		register_rest_route(
+			$this->namespace,
+			'/settings',
+			array(
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( new Settings(), 'get' ),
+					'permission_callback' => array( $this, 'is_admin' ),
+				),
+				array(
+					'methods'             => WP_REST_Server::CREATABLE,
+					'callback'            => array( new Settings(), 'update' ),
+					'permission_callback' => array( $this, 'is_admin' ),
+				),
+			)
+		);
 	}
 }
