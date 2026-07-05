@@ -20,6 +20,7 @@ class Cron {
 
 	use Hook;
 	use Queue;
+	use Cache;
 
 	const SWEEP_HOOK = 'spa_cron_fetch_sources';
 	const INTERVAL    = 'spa_fifteen_minutes';
@@ -29,6 +30,15 @@ class Cron {
 
 	/** Retries before a source is flagged `error` and stops being retried. */
 	const MAX_RETRIES = 5;
+
+	/**
+	 * Guards against overlapping sweeps: WP-Cron's pseudo-cron can fire more
+	 * than once in close succession on a busy site, and two concurrent sweeps
+	 * could both pass the "already ingested?" check for the same item before
+	 * either has inserted it, creating duplicate posts.
+	 */
+	const LOCK_KEY = 'spa_cron_sweep_lock';
+	const LOCK_TTL = 5 * MINUTE_IN_SECONDS;
 
 	public function __construct() {
 		$this->filter( 'cron_schedules', array( self::class, 'register_interval' ) );
