@@ -1,18 +1,6 @@
 <?php
 
 /**
- * Returns the home URL of the WordPress site.
- *
- * @param string $path    Optional. Path relative to the home URL.
- * @param int    $blog_id Optional. ID of the blog in a multisite installation.
- *
- * @return string Home URL with optional path appended.
- */
-function spa_home_url( $path = '', $blog_id = null ) {
-	return get_home_url( $blog_id, $path );
-}
-
-/**
  * Settings schema consumed by views/settings/layout.php.
  *
  * @todo Populate real menus/sections/fields (feed sources, duplicate-detection
