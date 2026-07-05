@@ -7,13 +7,11 @@ defined( 'ABSPATH' ) || exit;
  * Trait Rest
  *
  * This trait provides methods to register REST API routes and handle JSON responses in the WordPress plugin.
- *
- * @package ThrailWP
  */
 trait Rest {
 
 	// Namespace for the REST API routes specific to this plugin.
-	public $namespace = 'cx/v1';
+	public $namespace = 'smart-post-aggregator/v1';
 
 	/**
 	 * Registers a new REST API route.
