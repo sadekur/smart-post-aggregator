@@ -5,6 +5,7 @@ defined( 'ABSPATH' ) || exit;
 
 use SmartPostAggregator\Traits\Hook;
 use SmartPostAggregator\Traits\Asset;
+use SmartPostAggregator\Traits\Screen;
 
 /**
  * Single place for every script/style this plugin enqueues, across admin, frontend,
@@ -14,6 +15,7 @@ class Assets {
 
 	use Hook;
 	use Asset;
+	use Screen;
 
 	/**
 	 * Constructor to add all hooks.
@@ -22,17 +24,24 @@ class Assets {
 		$this->action( 'admin_enqueue_scripts', array( $this, 'common_assets' ) );
 		$this->action( 'admin_enqueue_scripts', array( $this, 'admin_assets' ) );
 		$this->action( 'wp_enqueue_scripts', array( $this, 'common_assets' ) );
+		$this->action( 'admin_head', array( $this, 'hide_admin_notices' ) );
 	}
 
 	/**
-	 * Whether the current admin screen belongs to this plugin.
-	 *
-	 * @return bool
+	 * Suppress every WP core and third-party admin notice on this plugin's own
+	 * screens, since they render inside a full-screen React app with no room
+	 * for banners. Runs on `admin_head`, which fires before `admin_notices`/
+	 * `all_admin_notices` are triggered later in the page render.
 	 */
-	private function is_plugin_admin_screen() {
-		global $current_screen;
+	public function hide_admin_notices() {
 
-		return isset( $current_screen->base ) && strpos( $current_screen->base, 'smart-post-aggregator' ) !== false;
+		if ( ! $this->is_plugin_admin_screen() ) {
+			return;
+		}
+
+		remove_all_actions( 'admin_notices' );
+		remove_all_actions( 'all_admin_notices' );
+		remove_all_actions( 'network_admin_notices' );
 	}
 
 	/**
