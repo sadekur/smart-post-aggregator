@@ -1,10 +1,9 @@
 <?php
 
 /**
- * Settings schema consumed by views/settings/layout.php.
- *
- * @todo Populate real menus/sections/fields (feed sources, duplicate-detection
- *       threshold, etc.) as each feature is designed and built.
+ * Legacy PHP-rendered settings schema. The Settings tab now uses a plain
+ * option (`API\Settings`, `DuplicateDetector::OPTION_KEY`) via the React
+ * admin app instead of this schema-driven field renderer.
  */
 function spa_settings_menus() {
 
