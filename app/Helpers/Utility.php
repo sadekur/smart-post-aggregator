@@ -83,41 +83,6 @@ class Utility {
 		}
 	}
 
-	/**
-	 * @param bool $show_cached either to use a cached list of posts or not. If enabled, make sure to wp_cache_delete() with the `save_post` hook
-	 */
-	public static function get_posts( $args = array(), $show_heading = false, $show_cached = false ) {
-
-		$defaults = array(
-			'post_type'      => 'post',
-			'posts_per_page' => -1,
-			'post_status'    => 'publish',
-		);
-
-		$_args = wp_parse_args( $args, $defaults );
-
-		// use cache
-		if ( true === $show_cached && ( $cached_posts = wp_cache_get( "smart-post-aggregator_{$_args['post_type']}", 'smart-post-aggregator' ) ) ) {
-			$posts = $cached_posts;
-		}
-
-		// don't use cache
-		else {
-			$queried = new \WP_Query( $_args );
-
-			$posts = array();
-			foreach ( $queried->posts as $post ) :
-				$posts[ $post->ID ] = $post->post_title;
-			endforeach;
-
-			wp_cache_add( "smart-post-aggregator_{$_args['post_type']}", $posts, 'smart-post-aggregator', 3600 );
-		}
-
-		$posts = $show_heading ? array( '' => sprintf( __( '- Choose a %s -', 'smart-post-aggregator' ), $_args['post_type'] ) ) + $posts : $posts;
-
-		return apply_filters( 'smart-post-aggregator_get_posts', $posts, $_args );
-	}
-
 	public static function get_option( $option, $section, $field, $default = '' ) {
 
 		$key     = "smart-post-aggregator-{$option}-{$section}";
