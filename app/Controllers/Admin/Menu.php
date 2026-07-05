@@ -19,22 +19,14 @@ class Menu {
 	}
 
 	/**
-	 * Every submenu below (including this "Dashboard" one) shares the exact
-	 * same page slug prefix, so they all resolve server-side to the same
-	 * `callback_main_menu()` hook — clicking any of them is a normal wp-admin
-	 * navigation, but only the `#/...` fragment differs between them, and
-	 * fragments are never sent to the server. That's what makes them work as
-	 * real, bookmarkable sidebar links while still being 100% client-side
-	 * hash routes inside the one mounted React app underneath.
+	 * Every submenu registered in register() (including "Dashboard") shares
+	 * the exact same page slug prefix, so they all resolve server-side to the
+	 * same `callback_main_menu()` hook — clicking any of them is a normal
+	 * wp-admin navigation, but only the `#/...` fragment differs between
+	 * them, and fragments are never sent to the server. That's what makes
+	 * them work as real, bookmarkable sidebar links while still being 100%
+	 * client-side hash routes inside the one mounted React app underneath.
 	 */
-	const ROUTES = array(
-		''          => 'Dashboard',
-		'#/sources' => 'Sources',
-		'#/review'  => 'Review',
-		'#/logs'    => 'Logs',
-		'#/settings' => 'Settings',
-	);
-
 	public function register() {
 		$this->add_menu(
 			__( 'Post Aggregator', 'smart-post-aggregator' ),
@@ -46,16 +38,50 @@ class Menu {
 			2
 		);
 
-		foreach ( self::ROUTES as $hash => $label ) {
-			$this->add_submenu(
-				'smart-post-aggregator',
-				__( $label, 'smart-post-aggregator' ),
-				__( $label, 'smart-post-aggregator' ),
-				'manage_options',
-				'smart-post-aggregator' . $hash,
-				function () {}
-			);
-		}
+		$this->add_submenu(
+			'smart-post-aggregator',
+			__( 'Dashboard', 'smart-post-aggregator' ),
+			__( 'Dashboard', 'smart-post-aggregator' ),
+			'manage_options',
+			'smart-post-aggregator',
+			function () {}
+		);
+
+		$this->add_submenu(
+			'smart-post-aggregator',
+			__( 'Sources', 'smart-post-aggregator' ),
+			__( 'Sources', 'smart-post-aggregator' ),
+			'manage_options',
+			'smart-post-aggregator#/sources',
+			function () {}
+		);
+
+		$this->add_submenu(
+			'smart-post-aggregator',
+			__( 'Review', 'smart-post-aggregator' ),
+			__( 'Review', 'smart-post-aggregator' ),
+			'manage_options',
+			'smart-post-aggregator#/review',
+			function () {}
+		);
+
+		$this->add_submenu(
+			'smart-post-aggregator',
+			__( 'Logs', 'smart-post-aggregator' ),
+			__( 'Logs', 'smart-post-aggregator' ),
+			'manage_options',
+			'smart-post-aggregator#/logs',
+			function () {}
+		);
+
+		$this->add_submenu(
+			'smart-post-aggregator',
+			__( 'Settings', 'smart-post-aggregator' ),
+			__( 'Settings', 'smart-post-aggregator' ),
+			'manage_options',
+			'smart-post-aggregator#/settings',
+			function () {}
+		);
 	}
 
 	public function callback_main_menu() {
