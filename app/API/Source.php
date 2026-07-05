@@ -47,6 +47,15 @@ class Source {
 			return new \WP_Error( 'spa_missing_fields', __( 'Name and URL are required.', 'smart-post-aggregator' ), array( 'status' => 400 ) );
 		}
 
+		// Every source URL gets fetched server-side on a recurring cron sweep,
+		// so an unvalidated URL here is a standing SSRF vector (a source could
+		// point at an internal service or a cloud metadata endpoint). WP core's
+		// own SSRF guard rejects private/loopback/reserved-range hosts unless
+		// they match the site's own domain.
+		if ( ! wp_http_validate_url( $url ) ) {
+			return new \WP_Error( 'spa_invalid_url', __( 'That URL is not allowed as a source.', 'smart-post-aggregator' ), array( 'status' => 400 ) );
+		}
+
 		$fetch_interval = (int) $request->get_param( 'fetch_interval' );
 		$fetch_interval = $fetch_interval > 0 ? $fetch_interval : 900;
 
