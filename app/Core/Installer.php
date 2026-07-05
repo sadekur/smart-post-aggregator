@@ -3,8 +3,6 @@ namespace SmartPostAggregator\Core;
 
 defined( 'ABSPATH' ) || exit;
 
-use SmartPostAggregator\Models\Database;
-
 class Installer {
 
 	/**
