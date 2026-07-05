@@ -37,5 +37,35 @@ class API {
 				'permission_callback' => array( $this, 'is_admin' ),
 			)
 		);
+
+		/**
+		 * Source (feed) management APIs
+		 */
+		register_rest_route(
+			$this->namespace,
+			'/sources',
+			array(
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( new Source(), 'list' ),
+					'permission_callback' => array( $this, 'is_admin' ),
+				),
+				array(
+					'methods'             => WP_REST_Server::CREATABLE,
+					'callback'            => array( new Source(), 'create' ),
+					'permission_callback' => array( $this, 'is_admin' ),
+				),
+			)
+		);
+
+		register_rest_route(
+			$this->namespace,
+			'/sources/(?P<id>\d+)',
+			array(
+				'methods'             => WP_REST_Server::DELETABLE,
+				'callback'            => array( new Source(), 'delete' ),
+				'permission_callback' => array( $this, 'is_admin' ),
+			)
+		);
 	}
 }
