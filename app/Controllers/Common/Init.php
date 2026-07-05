@@ -1,10 +1,10 @@
 <?php
-namespace SmartPostAggregantor\Controllers\Common;
+namespace SmartPostAggregator\Controllers\Common;
 
 defined( 'ABSPATH' ) || exit;
 
-use SmartPostAggregantor\Traits\Hook;
-use SmartPostAggregantor\Traits\Asset;
+use SmartPostAggregator\Traits\Hook;
+use SmartPostAggregator\Traits\Asset;
 
 class Init {
 
@@ -23,15 +23,15 @@ class Init {
 
 	public function modal() {
 		echo '
-		<div id="smart-post-aggregantor-modal" style="display: none">
-			<img id="smart-post-aggregantor-modal-loader" src="' . esc_attr( SPA_ASSETS_URL . 'common/img/loader.gif' ) . '" />
+		<div id="smart-post-aggregator-modal" style="display: none">
+			<img id="smart-post-aggregator-modal-loader" src="' . esc_attr( SPA_ASSETS_URL . 'common/img/loader.gif' ) . '" />
 		</div>';
 	}
 
 	public function add_assets() {
 		global $current_screen;
 
-		if ( isset( $current_screen->base ) && strpos( $current_screen->base, 'smart-post-aggregantor' ) !== false || ! is_admin() ) {
+		if ( isset( $current_screen->base ) && strpos( $current_screen->base, 'smart-post-aggregator' ) !== false || ! is_admin() ) {
 
 			$this->enqueue_script(
 				'tailwind-css',
@@ -39,12 +39,12 @@ class Init {
 			);
 
 			$this->enqueue_script(
-				'smart-post-aggregantor_common',
+				'smart-post-aggregator_common',
 				SPA_ASSETS_URL . 'common/js/init.js'
 			);
 
 			$this->enqueue_style(
-				'smart-post-aggregantor_common',
+				'smart-post-aggregator_common',
 				SPA_ASSETS_URL . 'common/css/init.css'
 			);
 		}

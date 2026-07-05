@@ -9,11 +9,11 @@
  * Requires at least: 5.0
  * Tested up to: 6.5
  * Requires PHP: 7.4
- * Text Domain: smart-post-aggregantor
+ * Text Domain: smart-post-aggregator
  * Domain Path: /languages
  */
 
-namespace SmartPostAggregantor;
+namespace SmartPostAggregator;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -71,7 +71,7 @@ function spa_activate() {
 /**
  * Init Plugin
  */
-if ( class_exists( 'SmartPostAggregantor\\Core\\Initializer' ) ) {
+if ( class_exists( 'SmartPostAggregator\\Core\\Initializer' ) ) {
 	$init = Core\Initializer::get_instance();
 	$init->init();
 }

@@ -1,9 +1,9 @@
 <?php
-namespace SmartPostAggregantor\Models;
+namespace SmartPostAggregator\Models;
 
 defined( 'ABSPATH' ) || exit;
 
-use SmartPostAggregantor\Abstracts\User;
+use SmartPostAggregator\Abstracts\User;
 
 /**
  * Concrete Manager Class

@@ -1,5 +1,5 @@
 <?php
-namespace SmartPostAggregantor\Abstracts;
+namespace SmartPostAggregator\Abstracts;
 
 defined( 'ABSPATH' ) || exit;
 

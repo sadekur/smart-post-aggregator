@@ -1,5 +1,5 @@
 <?php
-namespace SmartPostAggregantor\Core;
+namespace SmartPostAggregator\Core;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -14,7 +14,7 @@ class Activator {
 		$activator->set_cron();
 
 		// Set a flag that indicates the plugin has been activated
-		update_option( 'smart-post-aggregantor_activated', true );
+		update_option( 'smart-post-aggregator_activated', true );
 	}
 
 	public function set_cron() {

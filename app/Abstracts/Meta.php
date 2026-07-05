@@ -1,9 +1,9 @@
 <?php
-namespace SmartPostAggregantor\Abstracts;
+namespace SmartPostAggregator\Abstracts;
 
 defined( 'ABSPATH' ) || exit;
 
-use SmartPostAggregantor\Models\Database;
+use SmartPostAggregator\Models\Database;
 
 /**
  * Class Meta

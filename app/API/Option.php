@@ -1,9 +1,9 @@
 <?php
-namespace SmartPostAggregantor\API;
+namespace SmartPostAggregator\API;
 
 defined( 'ABSPATH' ) || exit;
 
-use SmartPostAggregantor\Traits\Rest;
+use SmartPostAggregator\Traits\Rest;
 
 class Option {
 
@@ -20,13 +20,13 @@ class Option {
 		$key = $request->get_param( 'key' );
 
 		if ( empty( $key ) ) {
-			return $this->response_error( __( 'Option key is required.', 'smart-post-aggregantor' ) );
+			return $this->response_error( __( 'Option key is required.', 'smart-post-aggregator' ) );
 		}
 
 		$value = get_option( $key );
 
 		// if ( empty( $value ) ) {
-		// return $this->response_error( __( 'Option not found.', 'smart-post-aggregantor' ) );
+		// return $this->response_error( __( 'Option not found.', 'smart-post-aggregator' ) );
 		// }
 
 		return $this->response_success( $value );
@@ -43,16 +43,16 @@ class Option {
 		$value = $request->get_param( 'value' );
 
 		if ( empty( $key ) || empty( $value ) ) {
-			return $this->response_error( __( 'Option key and value are required.', 'smart-post-aggregantor' ) );
+			return $this->response_error( __( 'Option key and value are required.', 'smart-post-aggregator' ) );
 		}
 
 		$updated = update_option( $key, $value );
 
 		if ( ! $updated ) {
-			return $this->response_success( __( 'Option not updated.', 'smart-post-aggregantor' ) );
+			return $this->response_success( __( 'Option not updated.', 'smart-post-aggregator' ) );
 		}
 
-		return $this->response_success( __( 'Option updated successfully.', 'smart-post-aggregantor' ) );
+		return $this->response_success( __( 'Option updated successfully.', 'smart-post-aggregator' ) );
 	}
 
 	/**
@@ -65,15 +65,15 @@ class Option {
 		$key = $request->get_param( 'key' );
 
 		if ( empty( $key ) ) {
-			return $this->response_error( __( 'Option key is required.', 'smart-post-aggregantor' ) );
+			return $this->response_error( __( 'Option key is required.', 'smart-post-aggregator' ) );
 		}
 
 		$deleted = delete_option( $key );
 
 		if ( ! $deleted ) {
-			return $this->response_error( __( 'Failed to delete option.', 'smart-post-aggregantor' ) );
+			return $this->response_error( __( 'Failed to delete option.', 'smart-post-aggregator' ) );
 		}
 
-		return $this->response_success( __( 'Option deleted successfully.', 'smart-post-aggregantor' ) );
+		return $this->response_success( __( 'Option deleted successfully.', 'smart-post-aggregator' ) );
 	}
 }

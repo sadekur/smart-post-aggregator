@@ -1,5 +1,5 @@
 <?php
-namespace SmartPostAggregantor\Abstracts;
+namespace SmartPostAggregator\Abstracts;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -272,7 +272,7 @@ abstract class Field {
 	 * @return string
 	 */
 	public function get_field_id() {
-		return 'smart-post-aggregantor-field-' . $this->id;
+		return 'smart-post-aggregator-field-' . $this->id;
 	}
 
 	/**
@@ -281,7 +281,7 @@ abstract class Field {
 	 * @return string
 	 */
 	public function get_field_class() {
-		return 'smart-post-aggregantor-field smart-post-aggregantor-field-' . $this->type;
+		return 'smart-post-aggregator-field smart-post-aggregator-field-' . $this->type;
 	}
 
 	/**
@@ -290,7 +290,7 @@ abstract class Field {
 	 * @return string
 	 */
 	public function get_wrapper_id() {
-		return 'smart-post-aggregantor-field-wrapper-' . $this->id;
+		return 'smart-post-aggregator-field-wrapper-' . $this->id;
 	}
 
 	/**
@@ -299,7 +299,7 @@ abstract class Field {
 	 * @return string
 	 */
 	public function get_wrapper_class() {
-		return 'smart-post-aggregantor-field-wrapper smart-post-aggregantor-field-wrapper-' . $this->type . ' ' . $this->class;
+		return 'smart-post-aggregator-field-wrapper smart-post-aggregator-field-wrapper-' . $this->type . ' ' . $this->class;
 	}
 
 	/**

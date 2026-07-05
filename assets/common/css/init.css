@@ -1,4 +1,4 @@
-#smart-post-aggregantor-modal {
+#smart-post-aggregator-modal {
 	position: fixed;
 	background: #c8c8c859;
 	top: 0;
@@ -11,9 +11,9 @@
 	justify-content: center;
 	align-items: center;
 }
-.wp-admin #smart-post-aggregantor-modal {
+.wp-admin #smart-post-aggregator-modal {
 	left: 160px;
 }
-#smart-post-aggregantor-modal-loader {
+#smart-post-aggregator-modal-loader {
 	position: absolute;
 }

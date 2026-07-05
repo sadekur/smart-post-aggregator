@@ -1,5 +1,5 @@
 <?php
-namespace SmartPostAggregantor\Traits;
+namespace SmartPostAggregator\Traits;
 
 defined( 'ABSPATH' ) || exit;
 

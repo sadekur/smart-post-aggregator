@@ -1,12 +1,12 @@
 <?php
-namespace SmartPostAggregantor\Controllers\Admin;
+namespace SmartPostAggregator\Controllers\Admin;
 
 defined( 'ABSPATH' ) || exit;
 
-use SmartPostAggregantor\Traits\Hook;
-use SmartPostAggregantor\Traits\Asset;
-use SmartPostAggregantor\Traits\Menu as Menu_Trait;
-use SmartPostAggregantor\Helpers\Utility;
+use SmartPostAggregator\Traits\Hook;
+use SmartPostAggregator\Traits\Asset;
+use SmartPostAggregator\Traits\Menu as Menu_Trait;
+use SmartPostAggregator\Helpers\Utility;
 
 class Menu {
 
@@ -25,24 +25,24 @@ class Menu {
 	public function add_assets() {
 		global $current_screen;
 
-		if ( strpos( $current_screen->base, 'smart-post-aggregantor' ) !== false ) {
+		if ( strpos( $current_screen->base, 'smart-post-aggregator' ) !== false ) {
 
 			$this->enqueue_script(
-				'smart-post-aggregantor_main-menu',
+				'smart-post-aggregator_main-menu',
 				SPA_PLUGIN_URL . 'spa/build/admin.bundle.js',
-				array( 'wp-element', 'smart-post-aggregantor_common' )
+				array( 'wp-element', 'smart-post-aggregator_common' )
 			);
 		}
 
-		if ( strpos( $current_screen->base, 'smart-post-aggregantor' ) !== false ) {
+		if ( strpos( $current_screen->base, 'smart-post-aggregator' ) !== false ) {
 
 			$this->enqueue_style(
-				'smart-post-aggregantor_settings',
+				'smart-post-aggregator_settings',
 				SPA_ASSETS_URL . 'admin/css/settings.css'
 			);
 
 			$this->enqueue_script(
-				'smart-post-aggregantor_settings',
+				'smart-post-aggregator_settings',
 				SPA_ASSETS_URL . 'admin/js/settings.js'
 			);
 		}
@@ -50,39 +50,39 @@ class Menu {
 
 	public function register() {
 		$this->add_menu(
-			__( 'Smart Post Aggregator', 'smart-post-aggregantor' ),
-			__( 'Smart Post Aggregator', 'smart-post-aggregantor' ),
+			__( 'Smart Post Aggregator', 'smart-post-aggregator' ),
+			__( 'Smart Post Aggregator', 'smart-post-aggregator' ),
 			'manage_options',
-			'smart-post-aggregantor',
+			'smart-post-aggregator',
 			array( $this, 'callback_main_menu' ),
 			'dashicons-wordpress',
 			2
 		);
 
 		$this->add_submenu(
-			'smart-post-aggregantor',
-			__( 'Dashboard', 'smart-post-aggregantor' ),
-			__( 'Dashboard', 'smart-post-aggregantor' ),
+			'smart-post-aggregator',
+			__( 'Dashboard', 'smart-post-aggregator' ),
+			__( 'Dashboard', 'smart-post-aggregator' ),
 			'manage_options',
-			'smart-post-aggregantor',
+			'smart-post-aggregator',
 			function () {}
 		);
 
 		$this->add_submenu(
-			'smart-post-aggregantor',
-			__( 'Help', 'smart-post-aggregantor' ),
-			__( 'Help', 'smart-post-aggregantor' ),
+			'smart-post-aggregator',
+			__( 'Help', 'smart-post-aggregator' ),
+			__( 'Help', 'smart-post-aggregator' ),
 			'manage_options',
-			'smart-post-aggregantor#/help',
+			'smart-post-aggregator#/help',
 			function () {}
 		);
 
 		$this->add_submenu(
-			'smart-post-aggregantor',
-			__( 'Settings', 'smart-post-aggregantor' ),
-			__( 'Settings', 'smart-post-aggregantor' ),
+			'smart-post-aggregator',
+			__( 'Settings', 'smart-post-aggregator' ),
+			__( 'Settings', 'smart-post-aggregator' ),
 			'manage_options',
-			'smart-post-aggregantor-settings',
+			'smart-post-aggregator-settings',
 			array( $this, 'callback_submenu' ),
 		);
 	}
@@ -91,10 +91,10 @@ class Menu {
 		printf(
 			'<div class="wrap">
 				<h2>%1$s</h2>
-				<div id="smart-post-aggregantor_render">%2$s</div>
+				<div id="smart-post-aggregator_render">%2$s</div>
 			</div>',
 			'Smart Post Aggregator',
-			__( 'Loading..', 'smart-post-aggregantor' )
+			__( 'Loading..', 'smart-post-aggregator' )
 		);
 	}
 

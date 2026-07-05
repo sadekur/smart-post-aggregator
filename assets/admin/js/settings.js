@@ -1,6 +1,6 @@
 jQuery(function($) {
 
-	$('.smart-post-aggregantor-settings-form').on('reset', function(e){
+	$('.smart-post-aggregator-settings-form').on('reset', function(e){
 		e.preventDefault();
 		spa_modal();
 	    
@@ -25,7 +25,7 @@ jQuery(function($) {
 	    });
 	});
 
-	$('.smart-post-aggregantor-settings-form').submit(function(e){
+	$('.smart-post-aggregator-settings-form').submit(function(e){
 		e.preventDefault();
 		spa_modal();
 

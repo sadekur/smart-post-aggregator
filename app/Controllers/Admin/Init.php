@@ -1,10 +1,10 @@
 <?php
-namespace SmartPostAggregantor\Controllers\Admin;
+namespace SmartPostAggregator\Controllers\Admin;
 
 defined( 'ABSPATH' ) || exit;
 
-use SmartPostAggregantor\Traits\Hook;
-use SmartPostAggregantor\Traits\Asset;
+use SmartPostAggregator\Traits\Hook;
+use SmartPostAggregator\Traits\Asset;
 
 class Init {
 
@@ -21,18 +21,18 @@ class Init {
 	public function add_assets() {
 
 		$this->enqueue_script(
-			'smart-post-aggregantor_admin',
+			'smart-post-aggregator_admin',
 			SPA_PLUGIN_URL . 'assets/admin/js/init.js'
 		);
 
 		global $spa_menus;
 
 		$this->localize_script(
-			'smart-post-aggregantor_admin',
+			'smart-post-aggregator_admin',
 			'spa_PLUGIN_ADMIN',
 			array(
 				'menus'    => $spa_menus,
-				'api_base' => rest_url( 'smart-post-aggregantor/v1' ),
+				'api_base' => rest_url( 'smart-post-aggregator/v1' ),
 				'nonce'    => wp_create_nonce( 'wp_rest' ),
 			)
 		);

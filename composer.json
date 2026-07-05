@@ -1,11 +1,11 @@
 {
-    "name": "smart-post-aggregantor/smart-post-aggregantor",
+    "name": "smart-post-aggregator/smart-post-aggregator",
     "description": "A WordPress plugin for Smart Post Aggregator.",
     "type": "wordpress-plugin",
     "license": "GPL-2.0-or-later",
     "autoload": {
         "psr-4": {
-            "SmartPostAggregantor\\": "app/"
+            "SmartPostAggregator\\": "app/"
         },
         "files": ["app/Helpers/functions.php","app/Config/autoload.php"]
     },

@@ -1,9 +1,9 @@
 <?php
-namespace SmartPostAggregantor\Core;
+namespace SmartPostAggregator\Core;
 
 defined( 'ABSPATH' ) || exit;
 
-use SmartPostAggregantor\Models\Database;
+use SmartPostAggregator\Models\Database;
 
 class Installer {
 
@@ -25,7 +25,7 @@ class Installer {
 	 * @return bool
 	 */
 	protected function is_database_up_to_date() {
-		$installed_ver = get_option( 'smart-post-aggregantor_db_version' );
+		$installed_ver = get_option( 'smart-post-aggregator_db_version' );
 		return version_compare( $installed_ver, SPA_VERSION, '=' );
 	}
 
@@ -64,6 +64,6 @@ class Installer {
 	 * Update or add the database version to the options table.
 	 */
 	protected function update_db_version() {
-		update_option( 'smart-post-aggregantor_db_version', SPA_VERSION );
+		update_option( 'smart-post-aggregator_db_version', SPA_VERSION );
 	}
 }

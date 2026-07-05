@@ -1,13 +1,13 @@
 <?php
-namespace SmartPostAggregantor\Controllers\Common;
+namespace SmartPostAggregator\Controllers\Common;
 
 defined( 'ABSPATH' ) || exit;
 
 use WP_REST_Server;
-use SmartPostAggregantor\API\Option;
-use SmartPostAggregantor\Traits\Hook;
-use SmartPostAggregantor\Traits\Auth;
-use SmartPostAggregantor\Traits\Rest;
+use SmartPostAggregator\API\Option;
+use SmartPostAggregator\Traits\Hook;
+use SmartPostAggregator\Traits\Auth;
+use SmartPostAggregator\Traits\Rest;
 
 class API {
 

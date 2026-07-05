@@ -1,5 +1,5 @@
 <?php
-namespace SmartPostAggregantor\Core;
+namespace SmartPostAggregator\Core;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -66,7 +66,7 @@ class Initializer {
 
 		foreach ( $controllers as $file ) {
 			$class_name = basename( $file, '.php' );
-			$class = "\\SmartPostAggregantor\\Controllers\\Admin\\{$class_name}";
+			$class = "\\SmartPostAggregator\\Controllers\\Admin\\{$class_name}";
 
 			if ( class_exists( $class ) ) {
 				new $class();
@@ -88,7 +88,7 @@ class Initializer {
 
 		foreach ( $controllers as $file ) {
 			$class_name = basename( $file, '.php' );
-			$class = "\\SmartPostAggregantor\\Controllers\\Front\\{$class_name}";
+			$class = "\\SmartPostAggregator\\Controllers\\Front\\{$class_name}";
 
 			if ( class_exists( $class ) ) {
 				new $class();
@@ -110,7 +110,7 @@ class Initializer {
 
 		foreach ( $controllers as $file ) {
 			$class_name = basename( $file, '.php' );
-			$class = "\\SmartPostAggregantor\\Controllers\\Common\\{$class_name}";
+			$class = "\\SmartPostAggregator\\Controllers\\Common\\{$class_name}";
 
 			if ( class_exists( $class ) ) {
 				new $class();

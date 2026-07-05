@@ -1,5 +1,5 @@
 <?php
-use SmartPostAggregantor\Helpers\Utility;
+use SmartPostAggregator\Helpers\Utility;
 
 $menus = spa_settings_menus();
 
@@ -10,21 +10,21 @@ $submenus          = isset( $active_menu['submenus'] ) && is_array( $active_menu
 $active_submenu_id = isset( $_GET['submenu'] ) && array_key_exists( $_GET['submenu'], $submenus ) ? sanitize_key( $_GET['submenu'] ) : array_key_first( $submenus );
 
 $admin_menu   = admin_url( 'admin.php' );
-$option_key   = "smart-post-aggregantor-{$active_menu_id}-{$active_submenu_id}";
+$option_key   = "smart-post-aggregator-{$active_menu_id}-{$active_submenu_id}";
 $saved_option = get_option( $option_key );
 
 ?>
-<div id="smart-post-aggregantor-settings-wrap">
+<div id="smart-post-aggregator-settings-wrap">
 	
-	<div id="smart-post-aggregantor-settings-header">
-		<h2><?php esc_html_e( 'Smart Post Aggregator', 'smart-post-aggregantor' ); ?></h2>
+	<div id="smart-post-aggregator-settings-header">
+		<h2><?php esc_html_e( 'Smart Post Aggregator', 'smart-post-aggregator' ); ?></h2>
 	</div>
 
-	<div id="smart-post-aggregantor-settings-body">
+	<div id="smart-post-aggregator-settings-body">
 
-		<div id="smart-post-aggregantor-settings-sidebar">
-			<div id="smart-post-aggregantor-settings-menus">
-				<ul id="smart-post-aggregantor-settings-menus-list">
+		<div id="smart-post-aggregator-settings-sidebar">
+			<div id="smart-post-aggregator-settings-menus">
+				<ul id="smart-post-aggregator-settings-menus-list">
 				<?php
 				foreach ( $menus as $menu_id => $menu ) {
 					printf(
@@ -34,7 +34,7 @@ $saved_option = get_option( $option_key );
 						esc_url(
 							add_query_arg(
 								array(
-									'page' => 'smart-post-aggregantor-settings',
+									'page' => 'smart-post-aggregator-settings',
 									'menu' => $menu_id,
 								),
 								$admin_menu
@@ -48,23 +48,23 @@ $saved_option = get_option( $option_key );
 			</div>
 		</div>
 
-		<div id="smart-post-aggregantor-settings-content">
-			<form class="smart-post-aggregantor-settings-form" data-option_key="<?php echo esc_attr( $option_key ); ?>" id="" method="post">
+		<div id="smart-post-aggregator-settings-content">
+			<form class="smart-post-aggregator-settings-form" data-option_key="<?php echo esc_attr( $option_key ); ?>" id="" method="post">
 
-				<div id="smart-post-aggregantor-settings-content-header">
-					<div id="smart-post-aggregantor-settings-content-label">
+				<div id="smart-post-aggregator-settings-content-header">
+					<div id="smart-post-aggregator-settings-content-label">
 						<h3><?php echo esc_html( $active_menu['label'] ); ?></h3>
 					</div>
 
-					<div id="smart-post-aggregantor-settings-content-actions">
-						<input type="reset" class="button" value="<?php esc_attr_e( 'Reset Settings', 'smart-post-aggregantor' ); ?>">
-						<input type="submit" class="button" value="<?php esc_attr_e( 'Save Settings', 'smart-post-aggregantor' ); ?>">
+					<div id="smart-post-aggregator-settings-content-actions">
+						<input type="reset" class="button" value="<?php esc_attr_e( 'Reset Settings', 'smart-post-aggregator' ); ?>">
+						<input type="submit" class="button" value="<?php esc_attr_e( 'Save Settings', 'smart-post-aggregator' ); ?>">
 					</div>
 				</div>
 
 				<?php if ( count( $submenus ) > 1 ) : ?>
-				<div id="smart-post-aggregantor-settings-submenus">
-					<ul id="smart-post-aggregantor-settings-submenus-list">
+				<div id="smart-post-aggregator-settings-submenus">
+					<ul id="smart-post-aggregator-settings-submenus-list">
 					<?php
 					foreach ( $submenus as $submenu_id => $submenu ) {
 						printf(
@@ -74,7 +74,7 @@ $saved_option = get_option( $option_key );
 							esc_url(
 								add_query_arg(
 									array(
-										'page'    => 'smart-post-aggregantor-settings',
+										'page'    => 'smart-post-aggregator-settings',
 										'menu'    => $active_menu_id,
 										'submenu' => $submenu_id,
 									),
@@ -89,19 +89,19 @@ $saved_option = get_option( $option_key );
 				</div>
 				<?php endif; ?>
 
-				<div id="smart-post-aggregantor-settings-sections">
+				<div id="smart-post-aggregator-settings-sections">
 					<?php
 					$sections = $menus[ $active_menu_id ]['submenus'][ $active_submenu_id ]['sections'] ?? array();
 
 					foreach ( $sections as $section_id => $section ) {
-						printf( '<div class="smart-post-aggregantor-settings-section" id="smart-post-aggregantor-settings-section-%1$s">', esc_attr( $section_id ) );
+						printf( '<div class="smart-post-aggregator-settings-section" id="smart-post-aggregator-settings-section-%1$s">', esc_attr( $section_id ) );
 
 						if ( ! empty( $section['label'] ) ) {
-							printf( '<h2 class="smart-post-aggregantor-settings-section-heading">%1$s</h2>', esc_html( $section['label'] ) );
+							printf( '<h2 class="smart-post-aggregator-settings-section-heading">%1$s</h2>', esc_html( $section['label'] ) );
 						}
 
 						if ( ! empty( $section['desc'] ) ) {
-							printf( '<p class="smart-post-aggregantor-settings-section-desc">%1$s</p>', esc_html( $section['desc'] ) );
+							printf( '<p class="smart-post-aggregator-settings-section-desc">%1$s</p>', esc_html( $section['desc'] ) );
 						}
 
 						foreach ( $section['fields'] as $field ) {
@@ -117,7 +117,7 @@ $saved_option = get_option( $option_key );
 							}
 						}
 
-						printf( '<input type="submit" class="button" value="%1$s">', esc_attr( __( 'Save Settings', 'smart-post-aggregantor' ) ) );
+						printf( '<input type="submit" class="button" value="%1$s">', esc_attr( __( 'Save Settings', 'smart-post-aggregator' ) ) );
 
 						printf( '</div><!-- #%1$s -->', esc_attr( $section_id ) );
 					}

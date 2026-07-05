@@ -21,7 +21,7 @@ jobs:
       env:
         SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
         SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
-        SLUG: "smart-post-aggregantor"
+        SLUG: "smart-post-aggregator"
         VERSION: "0.9"
       run: |
         # SVN checkout

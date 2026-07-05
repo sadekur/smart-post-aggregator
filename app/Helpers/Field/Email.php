@@ -1,7 +1,7 @@
 <?php
-namespace SmartPostAggregantor\Helpers\Field;
+namespace SmartPostAggregator\Helpers\Field;
 
-use SmartPostAggregantor\Abstracts\Field;
+use SmartPostAggregator\Abstracts\Field;
 
 defined( 'ABSPATH' ) || exit;
 

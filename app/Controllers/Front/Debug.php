@@ -1,9 +1,9 @@
 <?php
-namespace SmartPostAggregantor\Controllers\Front;
+namespace SmartPostAggregator\Controllers\Front;
 
 defined( 'ABSPATH' ) || exit;
 
-use SmartPostAggregantor\Traits\Hook;
+use SmartPostAggregator\Traits\Hook;
 
 class Debug {
 

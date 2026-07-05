@@ -40,7 +40,7 @@ const App = () => {
 }
 
 // Assuming the container exists in your HTML file
-const container = document.getElementById('smart-post-aggregantor_render');
+const container = document.getElementById('smart-post-aggregator_render');
 const root = createRoot(container);
 root.render(<App />);
 

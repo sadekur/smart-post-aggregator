@@ -1,5 +1,5 @@
 <?php
-namespace SmartPostAggregantor\Helpers;
+namespace SmartPostAggregator\Helpers;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -41,7 +41,7 @@ class Utility {
 			$message = json_encode( $message );
 		}
 
-		if ( ! file_exists( $log_path = WP_CONTENT_DIR . '/smart-post-aggregantor-logs/' . $log_file ) ) {
+		if ( ! file_exists( $log_path = WP_CONTENT_DIR . '/smart-post-aggregator-logs/' . $log_file ) ) {
 			$wp_filesystem->mkdir( dirname( $log_path ) );
 			$wp_filesystem->put_contents( $log_path, '', FS_CHMOD_FILE );
 		}
@@ -123,7 +123,7 @@ class Utility {
 		$_args = wp_parse_args( $args, $defaults );
 
 		// use cache
-		if ( true === $show_cached && ( $cached_posts = wp_cache_get( "smart-post-aggregantor_{$_args['post_type']}", 'smart-post-aggregantor' ) ) ) {
+		if ( true === $show_cached && ( $cached_posts = wp_cache_get( "smart-post-aggregator_{$_args['post_type']}", 'smart-post-aggregator' ) ) ) {
 			$posts = $cached_posts;
 		}
 
@@ -136,17 +136,17 @@ class Utility {
 				$posts[ $post->ID ] = $post->post_title;
 			endforeach;
 
-			wp_cache_add( "smart-post-aggregantor_{$_args['post_type']}", $posts, 'smart-post-aggregantor', 3600 );
+			wp_cache_add( "smart-post-aggregator_{$_args['post_type']}", $posts, 'smart-post-aggregator', 3600 );
 		}
 
-		$posts = $show_heading ? array( '' => sprintf( __( '- Choose a %s -', 'smart-post-aggregantor' ), $_args['post_type'] ) ) + $posts : $posts;
+		$posts = $show_heading ? array( '' => sprintf( __( '- Choose a %s -', 'smart-post-aggregator' ), $_args['post_type'] ) ) + $posts : $posts;
 
-		return apply_filters( 'smart-post-aggregantor_get_posts', $posts, $_args );
+		return apply_filters( 'smart-post-aggregator_get_posts', $posts, $_args );
 	}
 
 	public static function get_option( $option, $section, $field, $default = '' ) {
 
-		$key     = "smart-post-aggregantor-{$option}-{$section}";
+		$key     = "smart-post-aggregator-{$option}-{$section}";
 		$options = get_option( $key );
 
 		if ( isset( $options[ $field ] ) ) {

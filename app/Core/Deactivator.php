@@ -1,9 +1,9 @@
 <?php
-namespace SmartPostAggregantor\Core;
+namespace SmartPostAggregator\Core;
 
 defined( 'ABSPATH' ) || exit;
 
-use SmartPostAggregantor\Models\Database;
+use SmartPostAggregator\Models\Database;
 
 class Deactivator {
 
@@ -20,6 +20,6 @@ class Deactivator {
 	 * Remove the database version from the options table.
 	 */
 	protected function remove_db_version() {
-		delete_option( 'smart-post-aggregantor_db_version' );
+		delete_option( 'smart-post-aggregator_db_version' );
 	}
 }
