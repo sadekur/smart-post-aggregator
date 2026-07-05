@@ -17,14 +17,18 @@ use SmartPostAggregator\Services\Similarity\SimilarityFactory;
  */
 class DuplicateDetector {
 
+	/** Option storing the admin-configurable algorithm/threshold/etc (Settings tab). */
+	const OPTION_KEY = 'smart-post-aggregator_settings';
+
 	/** Recent-post window the candidate set is bounded to. */
 	const CANDIDATE_WINDOW_DAYS = 30;
 
 	/** Max candidates compared per post, to bound worst-case cost per ingest. */
 	const CANDIDATE_LIMIT = 200;
 
-	const DEFAULT_THRESHOLD      = 50; // percent
-	const DEFAULT_REVIEW_MARGIN  = 10; // percent
+	const DEFAULT_THRESHOLD     = 50; // percent
+	const DEFAULT_REVIEW_MARGIN = 10; // percent
+	const DEFAULT_RESOLUTION    = 'mark';
 
 	/**
 	 * @param int $post_id A `spa_content` post that was just created.
@@ -37,23 +41,24 @@ class DuplicateDetector {
 			return;
 		}
 
+		$settings = $this->get_settings();
+
 		$hash        = get_post_meta( $post_id, '_spa_content_hash', true );
 		$exact_match = $hash ? $this->find_exact_hash_match( $post_id, $hash ) : 0;
 
 		if ( $exact_match ) {
-			$this->record( $post_id, $exact_match, 100.0, 100.0, 'hash', 'duplicate' );
+			$this->record( $post_id, $exact_match, 100.0, 100.0, 'hash', 'duplicate', $settings );
 			return;
 		}
 
 		$candidates = $this->get_candidates( $post_id );
 
 		if ( empty( $candidates ) ) {
-			$this->record( $post_id, 0, 0.0, 0.0, 'none', 'unique' );
+			$this->record( $post_id, 0, 0.0, 0.0, 'none', 'unique', $settings );
 			return;
 		}
 
-		$algorithm  = apply_filters( 'spa_duplicate_algorithm', SimilarityFactory::DEFAULT_ALGORITHM );
-		$similarity = SimilarityFactory::make( $algorithm );
+		$similarity = SimilarityFactory::make( $settings['algorithm'] );
 		$text       = $this->comparable_text( $post );
 
 		$best_score = 0.0;
@@ -68,8 +73,8 @@ class DuplicateDetector {
 			}
 		}
 
-		$threshold     = (float) apply_filters( 'spa_duplicate_threshold', self::DEFAULT_THRESHOLD );
-		$review_margin = (float) apply_filters( 'spa_duplicate_review_margin', self::DEFAULT_REVIEW_MARGIN );
+		$threshold     = $settings['threshold'];
+		$review_margin = $settings['review_margin'];
 		$score_percent = $best_score * 100;
 
 		if ( $score_percent < $threshold ) {
@@ -80,7 +85,35 @@ class DuplicateDetector {
 			$status = 'duplicate';
 		}
 
-		$this->record( $post_id, 'unique' === $status ? 0 : $best_match, $score_percent, $threshold, $algorithm, $status );
+		$this->record( $post_id, 'unique' === $status ? 0 : $best_match, $score_percent, $threshold, $settings['algorithm'], $status, $settings );
+	}
+
+	/**
+	 * Reads the Settings-tab option (via `API\Settings`), falling back to the
+	 * class defaults, with a `spa_duplicate_*` filter layer on top for
+	 * developers who need to override without touching the option.
+	 *
+	 * @return array{algorithm:string,threshold:float,review_margin:float,default_resolution:string}
+	 */
+	protected function get_settings() {
+
+		$saved    = get_option( self::OPTION_KEY, array() );
+		$settings = wp_parse_args(
+			is_array( $saved ) ? $saved : array(),
+			array(
+				'algorithm'          => SimilarityFactory::DEFAULT_ALGORITHM,
+				'threshold'          => self::DEFAULT_THRESHOLD,
+				'review_margin'      => self::DEFAULT_REVIEW_MARGIN,
+				'default_resolution' => self::DEFAULT_RESOLUTION,
+			)
+		);
+
+		$settings['algorithm']          = apply_filters( 'spa_duplicate_algorithm', $settings['algorithm'] );
+		$settings['threshold']          = (float) apply_filters( 'spa_duplicate_threshold', $settings['threshold'] );
+		$settings['review_margin']      = (float) apply_filters( 'spa_duplicate_review_margin', $settings['review_margin'] );
+		$settings['default_resolution'] = apply_filters( 'spa_duplicate_default_resolution', $settings['default_resolution'] );
+
+		return $settings;
 	}
 
 	/**
