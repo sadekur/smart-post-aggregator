@@ -5,6 +5,7 @@ defined( 'ABSPATH' ) || exit;
 
 use SmartPostAggregator\Traits\Hook;
 use SmartPostAggregator\Traits\Queue;
+use SmartPostAggregator\Traits\Cache;
 use SmartPostAggregator\Models\Source;
 use SmartPostAggregator\Services\ContentAggregator;
 
