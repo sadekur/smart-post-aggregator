@@ -4,48 +4,19 @@ namespace SmartPostAggregator\Controllers\Admin;
 defined( 'ABSPATH' ) || exit;
 
 use SmartPostAggregator\Traits\Hook;
-use SmartPostAggregator\Traits\Asset;
 use SmartPostAggregator\Traits\Menu as Menu_Trait;
 use SmartPostAggregator\Helpers\Utility;
 
 class Menu {
 
 	use Hook;
-	use Asset;
 	use Menu_Trait;
 
 	/**
 	 * Constructor to add all hooks.
 	 */
 	public function __construct() {
-		$this->action( 'admin_enqueue_scripts', array( $this, 'add_assets' ) );
 		$this->action( 'admin_menu', array( $this, 'register' ) );
-	}
-
-	public function add_assets() {
-		global $current_screen;
-
-		if ( strpos( $current_screen->base, 'smart-post-aggregator' ) !== false ) {
-
-			$this->enqueue_script(
-				'smart-post-aggregator_main-menu',
-				SPA_PLUGIN_URL . 'spa/build/admin.bundle.js',
-				array( 'wp-element', 'smart-post-aggregator_common' )
-			);
-		}
-
-		if ( strpos( $current_screen->base, 'smart-post-aggregator' ) !== false ) {
-
-			$this->enqueue_style(
-				'smart-post-aggregator_settings',
-				SPA_ASSETS_URL . 'admin/css/settings.css'
-			);
-
-			$this->enqueue_script(
-				'smart-post-aggregator_settings',
-				SPA_ASSETS_URL . 'admin/js/settings.js'
-			);
-		}
 	}
 
 	public function register() {
