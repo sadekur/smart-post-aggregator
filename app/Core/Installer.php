@@ -31,33 +31,11 @@ class Installer {
 
 	/**
 	 * Create database tables.
+	 *
+	 * @todo Add the aggregator's own tables here (feed sources, duplicate-detection log)
+	 *       once that schema is designed.
 	 */
 	protected function create_tables() {
-
-		$db = new Database( 'contacts' );
-
-		// Define columns and options for the new table
-		$columns = array(
-			'id'         => 'BIGINT(20) NOT NULL AUTO_INCREMENT',
-			'name'       => 'VARCHAR(255) NOT NULL',
-			'email'      => 'VARCHAR(100) NOT NULL',
-			'created_at' => 'DATETIME DEFAULT CURRENT_TIMESTAMP',
-		);
-
-		// example options
-		$options = array(
-			'primary_key' => 'id',
-			'unique_keys' => array(
-				'unique_email' => 'email',
-			),
-			'indexes'     => array(
-				'index_name' => 'name',
-			),
-			'engine'      => 'InnoDB',
-		);
-
-		// Call the create_table method
-		$db->create_table( $columns, $options );
 	}
 
 	/**
