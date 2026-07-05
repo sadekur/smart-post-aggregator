@@ -32,11 +32,10 @@ class Installer {
 
 	/**
 	 * Create database tables.
-	 *
-	 * @todo Add the aggregator's own tables here (feed sources, duplicate-detection log)
-	 *       once that schema is designed.
 	 */
 	protected function create_tables() {
+		Source::install();
+		DuplicateLog::install();
 	}
 
 	/**
