@@ -26,6 +26,19 @@ class API {
 	public function register_endpoints() {
 
 		/**
+		 * Aggregated content APIs
+		 */
+		register_rest_route(
+			$this->namespace,
+			'/content',
+			array(
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => array( new Content(), 'list' ),
+				'permission_callback' => array( $this, 'is_admin' ),
+			)
+		);
+
+		/**
 		 * Options related APIs
 		 */
 		register_rest_route(
