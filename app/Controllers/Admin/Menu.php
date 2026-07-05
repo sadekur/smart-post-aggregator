@@ -5,7 +5,6 @@ defined( 'ABSPATH' ) || exit;
 
 use SmartPostAggregator\Traits\Hook;
 use SmartPostAggregator\Traits\Menu as Menu_Trait;
-use SmartPostAggregator\Helpers\Utility;
 
 class Menu {
 
