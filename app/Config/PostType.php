@@ -145,6 +145,14 @@ class PostType {
 		$allowed = array( 'unique', 'pending_review', 'duplicate' );
 		return in_array( $value, $allowed, true ) ? $value : 'unique';
 	}
+
+	/**
+	 * @param mixed $value Raw value being saved.
+	 * @return float
+	 */
+	public function sanitize_similarity_score( $value ) {
+		return floatval( $value );
+	}
 }
 
 new PostType();
