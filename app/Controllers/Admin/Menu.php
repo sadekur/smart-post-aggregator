@@ -29,6 +29,15 @@ class Menu {
 			2
 		);
 
+		/**
+		 * WordPress always creates a first submenu item matching the parent menu.
+		 * Re-registering it here (same parent slug + menu slug) just relabels that
+		 * automatic entry instead of showing a duplicate "Smart Post Aggregator" link.
+		 * It shares the same admin page hook as the parent, so callback_main_menu()
+		 * still renders it — every other screen (help, settings, sources, review,
+		 * logs, ...) is a client-side hash route inside that one mounted React app,
+		 * not a separate wp-admin submenu.
+		 */
 		$this->add_submenu(
 			'smart-post-aggregator',
 			__( 'Dashboard', 'smart-post-aggregator' ),
@@ -36,24 +45,6 @@ class Menu {
 			'manage_options',
 			'smart-post-aggregator',
 			function () {}
-		);
-
-		$this->add_submenu(
-			'smart-post-aggregator',
-			__( 'Help', 'smart-post-aggregator' ),
-			__( 'Help', 'smart-post-aggregator' ),
-			'manage_options',
-			'smart-post-aggregator#/help',
-			function () {}
-		);
-
-		$this->add_submenu(
-			'smart-post-aggregator',
-			__( 'Settings', 'smart-post-aggregator' ),
-			__( 'Settings', 'smart-post-aggregator' ),
-			'manage_options',
-			'smart-post-aggregator-settings',
-			array( $this, 'callback_submenu' ),
 		);
 	}
 
@@ -66,9 +57,5 @@ class Menu {
 			'Smart Post Aggregator',
 			__( 'Loading..', 'smart-post-aggregator' )
 		);
-	}
-
-	public function callback_submenu() {
-		echo Utility::get_template( 'settings/layout.php' );
 	}
 }
