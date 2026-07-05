@@ -18,10 +18,27 @@ class Menu {
 		$this->action( 'admin_menu', array( $this, 'register' ) );
 	}
 
+	/**
+	 * Every submenu below (including this "Dashboard" one) shares the exact
+	 * same page slug prefix, so they all resolve server-side to the same
+	 * `callback_main_menu()` hook — clicking any of them is a normal wp-admin
+	 * navigation, but only the `#/...` fragment differs between them, and
+	 * fragments are never sent to the server. That's what makes them work as
+	 * real, bookmarkable sidebar links while still being 100% client-side
+	 * hash routes inside the one mounted React app underneath.
+	 */
+	const ROUTES = array(
+		''          => 'Dashboard',
+		'#/sources' => 'Sources',
+		'#/review'  => 'Review',
+		'#/logs'    => 'Logs',
+		'#/settings' => 'Settings',
+	);
+
 	public function register() {
 		$this->add_menu(
-			__( 'Smart Post Aggregator', 'smart-post-aggregator' ),
-			__( 'Smart Post Aggregator', 'smart-post-aggregator' ),
+			__( 'Post Aggregator', 'smart-post-aggregator' ),
+			__( 'Post Aggregator', 'smart-post-aggregator' ),
 			'manage_options',
 			'smart-post-aggregator',
 			array( $this, 'callback_main_menu' ),
@@ -29,23 +46,16 @@ class Menu {
 			2
 		);
 
-		/**
-		 * WordPress always creates a first submenu item matching the parent menu.
-		 * Re-registering it here (same parent slug + menu slug) just relabels that
-		 * automatic entry instead of showing a duplicate "Smart Post Aggregator" link.
-		 * It shares the same admin page hook as the parent, so callback_main_menu()
-		 * still renders it — every other screen (help, settings, sources, review,
-		 * logs, ...) is a client-side hash route inside that one mounted React app,
-		 * not a separate wp-admin submenu.
-		 */
-		$this->add_submenu(
-			'smart-post-aggregator',
-			__( 'Dashboard', 'smart-post-aggregator' ),
-			__( 'Dashboard', 'smart-post-aggregator' ),
-			'manage_options',
-			'smart-post-aggregator',
-			function () {}
-		);
+		foreach ( self::ROUTES as $hash => $label ) {
+			$this->add_submenu(
+				'smart-post-aggregator',
+				__( $label, 'smart-post-aggregator' ),
+				__( $label, 'smart-post-aggregator' ),
+				'manage_options',
+				'smart-post-aggregator' . $hash,
+				function () {}
+			);
+		}
 	}
 
 	public function callback_main_menu() {
@@ -54,7 +64,7 @@ class Menu {
 				<h2>%1$s</h2>
 				<div id="smart-post-aggregator_render">%2$s</div>
 			</div>',
-			'Smart Post Aggregator',
+			esc_html__( 'Post Aggregator', 'smart-post-aggregator' ),
 			__( 'Loading..', 'smart-post-aggregator' )
 		);
 	}
