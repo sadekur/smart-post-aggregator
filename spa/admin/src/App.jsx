@@ -8,6 +8,31 @@ import Settings from './Settings';
 
 const VALID_TABS = ['/home', '/sources', '/review', '/logs', '/settings'];
 
+/**
+ * The wp-admin sidebar submenu items (Dashboard/Sources/Review/Logs/Settings)
+ * all point at the exact same `?page=smart-post-aggregator` URL — only their
+ * `#/...` fragment differs, and fragments never reach the server. So WP's
+ * own "current page" detection (which only ever sees `?page=...`) always
+ * marks the same one (Dashboard) as active, regardless of which tab is
+ * actually showing. This re-derives the correct highlight client-side by
+ * comparing each submenu link's fragment against the active tab.
+ */
+const syncSidebarHighlight = (activeTab) => {
+	const links = document.querySelectorAll('#adminmenu .wp-submenu a[href*="page=smart-post-aggregator"]');
+
+	links.forEach((link) => {
+		const li = link.closest('li');
+		if (!li) {
+			return;
+		}
+
+		const hashIndex = link.getAttribute('href').indexOf('#');
+		const linkTab = hashIndex === -1 ? '/home' : link.getAttribute('href').slice(hashIndex + 1) || '/home';
+
+		li.classList.toggle('current', linkTab === activeTab);
+	});
+};
+
 const App = () => {
 	const defaultTab = '/home';
 	const [activeTab, setActiveTab] = useState(window.location.hash.replace('#', '') || defaultTab);
@@ -34,6 +59,10 @@ const App = () => {
 			window.removeEventListener('hashchange', handleHashChange);
 		};
 	}, []);
+
+	useEffect(() => {
+		syncSidebarHighlight(activeTab);
+	}, [activeTab]);
 
 	return (
 		<div className="min-h-screen bg-gray-100">
