@@ -5,6 +5,7 @@ defined( 'ABSPATH' ) || exit;
 
 use WP_REST_Server;
 use SmartPostAggregator\API\Content;
+use SmartPostAggregator\API\Source;
 use SmartPostAggregator\Traits\Hook;
 use SmartPostAggregator\Traits\Auth;
 use SmartPostAggregator\Traits\Rest;
