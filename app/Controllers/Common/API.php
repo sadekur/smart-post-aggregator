@@ -113,5 +113,28 @@ class API {
 				),
 			)
 		);
+
+		/**
+		 * Reporting APIs (Dashboard stat tiles + Logs audit trail)
+		 */
+		register_rest_route(
+			$this->namespace,
+			'/stats',
+			array(
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => array( new Report(), 'stats' ),
+				'permission_callback' => array( $this, 'is_admin' ),
+			)
+		);
+
+		register_rest_route(
+			$this->namespace,
+			'/logs',
+			array(
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => array( new Report(), 'logs' ),
+				'permission_callback' => array( $this, 'is_admin' ),
+			)
+		);
 	}
 }
