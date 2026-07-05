@@ -100,15 +100,5 @@ class Assets {
 			SPA_PLUGIN_URL . 'spa/build/admin.bundle.js',
 			array( 'wp-element', 'smart-post-aggregator_common' )
 		);
-
-		$this->enqueue_style(
-			'smart-post-aggregator_settings',
-			SPA_ASSETS_URL . 'admin/css/settings.css'
-		);
-
-		$this->enqueue_script(
-			'smart-post-aggregator_settings',
-			SPA_ASSETS_URL . 'admin/js/settings.js'
-		);
 	}
 }
