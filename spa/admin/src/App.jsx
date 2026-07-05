@@ -28,8 +28,15 @@ const syncSidebarHighlight = (activeTab) => {
 
 		const hashIndex = link.getAttribute('href').indexOf('#');
 		const linkTab = hashIndex === -1 ? '/home' : link.getAttribute('href').slice(hashIndex + 1) || '/home';
+		const isCurrent = linkTab === activeTab;
 
-		li.classList.toggle('current', linkTab === activeTab);
+		li.classList.toggle('current', isCurrent);
+
+		if (isCurrent) {
+			link.setAttribute('aria-current', 'page');
+		} else {
+			link.removeAttribute('aria-current');
+		}
 	});
 };
 
