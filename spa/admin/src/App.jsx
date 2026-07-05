@@ -61,6 +61,7 @@ const App = () => {
 			{activeTab === '/home' && <Home />}
 			{activeTab === '/sources' && <Sources />}
 			{activeTab === '/review' && <Review />}
+			{activeTab === '/logs' && <Logs />}
 			{activeTab === '/help' && <Help />}
 			{activeTab === '/settings' && <Settings />}
 		</div>
