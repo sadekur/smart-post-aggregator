@@ -84,6 +84,27 @@ class Source {
 	}
 
 	/**
+	 * @param string $url
+	 * @return bool
+	 */
+	protected function resolves_to_link_local( $url ) {
+
+		$host = wp_parse_url( $url, PHP_URL_HOST );
+
+		if ( ! $host ) {
+			return false;
+		}
+
+		$ip = filter_var( $host, FILTER_VALIDATE_IP ) ? $host : gethostbyname( $host );
+
+		if ( ! filter_var( $ip, FILTER_VALIDATE_IP ) ) {
+			return false;
+		}
+
+		return 0 === strpos( $ip, '169.254.' );
+	}
+
+	/**
 	 * Delete a source.
 	 *
 	 * @param \WP_REST_Request $request
