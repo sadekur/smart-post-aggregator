@@ -35,8 +35,10 @@ class PostType {
 					'not_found'     => __( 'No aggregated content found', 'smart-post-aggregator' ),
 				),
 				'public'       => true,
-				'show_ui'      => true,
-				'show_in_menu' => 'smart-post-aggregator',
+				// No native wp-admin screens for this CPT — every admin screen is the
+				// plugin's own React app. REST stays on so that app can read/write it.
+				'show_ui'      => false,
+				'show_in_menu' => false,
 				'show_in_rest' => true,
 				'supports'     => array( 'title', 'editor', 'excerpt', 'thumbnail', 'custom-fields' ),
 				'has_archive'  => true,
