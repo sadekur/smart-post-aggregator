@@ -3,7 +3,6 @@ namespace SmartPostAggregator\Core;
 
 defined( 'ABSPATH' ) || exit;
 
-use SmartPostAggregator\Models\Database;
 use SmartPostAggregator\Controllers\Common\Cron;
 
 class Deactivator {
