@@ -55,7 +55,7 @@ class Assets {
 
 		$this->enqueue_script(
 			'tailwind-css',
-			SPA_PLUGIN_URL . 'spa/build/tailwind.bundle.js'
+			SPA_PLUGIN_URL . 'build/tailwind.bundle.js'
 		);
 
 		$this->enqueue_script(
