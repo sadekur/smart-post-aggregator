@@ -1,15 +1,4 @@
 === Smart Post Aggregator ===
-Contributors: codexpert
-Donate link: https://github.com/sadekur/smart-post-aggregator
-Tags: content aggregator, rss feed, duplicate content, feed importer, cron
-Requires at least: 5.0
-Tested up to: 6.5
-Requires PHP: 7.4
-Stable tag: 0.9
-License: GPLv2 or later
-License URI: https://www.gnu.org/licenses/gpl-2.0.html
-
-Aggregate content from multiple RSS feeds and JSON APIs into your site automatically, with built-in near-duplicate detection.
 
 == Description ==
 
