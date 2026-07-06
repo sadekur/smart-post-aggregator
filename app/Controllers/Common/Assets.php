@@ -97,7 +97,7 @@ class Assets {
 
 		$this->enqueue_script(
 			'smart-post-aggregator_main-menu',
-			SPA_PLUGIN_URL . 'spa/build/admin.bundle.js',
+			SPA_PLUGIN_URL . 'build/admin.bundle.js',
 			array( 'wp-element', 'smart-post-aggregator_common' )
 		);
 	}
