@@ -1,6 +1,6 @@
 === Smart Post Aggregator ===
 Contributors: codexpert
-Donate link: https://codexpert.io
+Donate link: https://github.com/sadekur/smart-post-aggregator
 Tags: content aggregator, rss feed, duplicate content, feed importer, cron
 Requires at least: 5.0
 Tested up to: 6.5
