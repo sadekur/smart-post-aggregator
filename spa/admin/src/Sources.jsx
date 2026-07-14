@@ -1,10 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import { IconRss, IconGlobe, IconPlus, IconTrash, IconClock } from './components/Icons';
+import { PageShell, PageHeader, Card, Badge, Button, EmptyState, LoadingState, Alert, sourceStatus } from './components/UI';
+
+const TYPES = [
+	{ value: 'rss', label: 'RSS Feed', icon: IconRss },
+	{ value: 'api', label: 'JSON API', icon: IconGlobe },
+];
 
 const Sources = () => {
 	const [sources, setSources] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [form, setForm] = useState({ name: '', type: 'rss', url: '', fetch_interval: 900 });
 	const [error, setError] = useState('');
+	const [submitting, setSubmitting] = useState(false);
 
 	const fetch_sources = async () => {
 		setLoading(true);
@@ -31,9 +39,14 @@ const Sources = () => {
 		setForm((prev) => ({ ...prev, [name]: value }));
 	};
 
+	const handle_type = (type) => {
+		setForm((prev) => ({ ...prev, type }));
+	};
+
 	const handle_submit = async (event) => {
 		event.preventDefault();
 		setError('');
+		setSubmitting(true);
 
 		try {
 			const response = await fetch(`${SPA_PLUGIN_ADMIN.api_base}/sources`, {
@@ -60,6 +73,8 @@ const Sources = () => {
 		} catch (err) {
 			console.error('Error creating source:', err);
 			setError('Could not create source.');
+		} finally {
+			setSubmitting(false);
 		}
 	};
 
@@ -76,123 +91,148 @@ const Sources = () => {
 	};
 
 	return (
-		<div className="min-h-screen bg-gray-100 flex flex-col items-center py-8">
-			<form onSubmit={handle_submit} className="w-full max-w-2xl bg-white shadow-md rounded-lg p-6 mb-6">
-				<h3 className="text-lg font-semibold mb-4">Add Source</h3>
+		<PageShell maxWidth="max-w-5xl">
+			<PageHeader icon={IconRss} title="Sources" subtitle="RSS feeds and JSON API endpoints the cron sweep aggregates from" />
 
-				{error && <p className="text-red-600 mb-3">{error}</p>}
+			<div className="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-6 items-start">
+				<Card title="Add Source" icon={IconPlus}>
+					<form onSubmit={handle_submit} className="space-y-4">
+						{error && <Alert type="error">{error}</Alert>}
 
-				<div className="mb-3">
-					<label className="block text-gray-700 text-sm font-bold mb-1" htmlFor="source-name">
-						Name
-					</label>
-					<input
-						id="source-name"
-						name="name"
-						type="text"
-						value={form.name}
-						onChange={handle_change}
-						required
-						className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
-					/>
-				</div>
+						<div>
+							<label className="block text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1.5" htmlFor="source-name">
+								Name
+							</label>
+							<input
+								id="source-name"
+								name="name"
+								type="text"
+								value={form.name}
+								onChange={handle_change}
+								required
+								placeholder="e.g. Hacker News Frontpage"
+								className="w-full rounded-lg border border-gray-300 py-2.5 px-3 text-sm text-gray-800 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 focus:outline-none"
+							/>
+						</div>
 
-				<div className="mb-3">
-					<label className="block text-gray-700 text-sm font-bold mb-1" htmlFor="source-type">
-						Type
-					</label>
-					<select
-						id="source-type"
-						name="type"
-						value={form.type}
-						onChange={handle_change}
-						className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
-					>
-						<option value="rss">RSS</option>
-						<option value="api">API</option>
-					</select>
-				</div>
-
-				<div className="mb-3">
-					<label className="block text-gray-700 text-sm font-bold mb-1" htmlFor="source-url">
-						Feed URL
-					</label>
-					<input
-						id="source-url"
-						name="url"
-						type="url"
-						value={form.url}
-						onChange={handle_change}
-						required
-						className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
-					/>
-				</div>
-
-				<div className="mb-4">
-					<label className="block text-gray-700 text-sm font-bold mb-1" htmlFor="source-interval">
-						Fetch Interval (seconds)
-					</label>
-					<input
-						id="source-interval"
-						name="fetch_interval"
-						type="number"
-						min="60"
-						value={form.fetch_interval}
-						onChange={handle_change}
-						className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
-					/>
-				</div>
-
-				<button
-					type="submit"
-					className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-				>
-					Add Source
-				</button>
-			</form>
-
-			<div className="w-full max-w-2xl bg-white shadow-md rounded-lg p-6">
-				<h3 className="text-lg font-semibold mb-4">Sources</h3>
-
-				{loading && <p className="text-gray-500">Loading...</p>}
-
-				{!loading && sources.length === 0 && (
-					<p className="text-gray-500 text-center py-4">No sources yet.</p>
-				)}
-
-				{!loading && sources.length > 0 && (
-					<table className="w-full text-left">
-						<thead>
-							<tr className="border-b">
-								<th className="py-2">Name</th>
-								<th className="py-2">Type</th>
-								<th className="py-2">Status</th>
-								<th className="py-2">Last Fetched</th>
-								<th className="py-2"></th>
-							</tr>
-						</thead>
-						<tbody>
-							{sources.map((source) => (
-								<tr key={source.id} className="border-b">
-									<td className="py-2">{source.name}</td>
-									<td className="py-2">{source.type}</td>
-									<td className="py-2">{source.status}</td>
-									<td className="py-2">{source.last_fetched_at || 'Never'}</td>
-									<td className="py-2 text-right">
+						<div>
+							<label className="block text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1.5">Type</label>
+							<div className="grid grid-cols-2 gap-2">
+								{TYPES.map((type) => {
+									const Icon = type.icon;
+									const active = form.type === type.value;
+									return (
 										<button
-											onClick={() => handle_delete(source.id)}
-											className="text-red-600 hover:underline"
+											type="button"
+											key={type.value}
+											onClick={() => handle_type(type.value)}
+											className={`flex items-center justify-center gap-2 rounded-lg border py-2.5 text-sm font-medium transition-colors ${
+												active
+													? 'border-indigo-500 bg-indigo-50 text-indigo-700 ring-1 ring-indigo-200'
+													: 'border-gray-300 text-gray-500 hover:bg-gray-50'
+											}`}
 										>
-											Delete
+											<Icon className="w-4 h-4" />
+											{type.label}
 										</button>
-									</td>
-								</tr>
-							))}
-						</tbody>
-					</table>
-				)}
+									);
+								})}
+							</div>
+						</div>
+
+						<div>
+							<label className="block text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1.5" htmlFor="source-url">
+								Feed URL
+							</label>
+							<input
+								id="source-url"
+								name="url"
+								type="url"
+								value={form.url}
+								onChange={handle_change}
+								required
+								placeholder="https://example.com/feed"
+								className="w-full rounded-lg border border-gray-300 py-2.5 px-3 text-sm text-gray-800 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 focus:outline-none"
+							/>
+						</div>
+
+						<div>
+							<label className="block text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1.5" htmlFor="source-interval">
+								Fetch Interval (seconds)
+							</label>
+							<input
+								id="source-interval"
+								name="fetch_interval"
+								type="number"
+								min="60"
+								value={form.fetch_interval}
+								onChange={handle_change}
+								className="w-full rounded-lg border border-gray-300 py-2.5 px-3 text-sm text-gray-800 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 focus:outline-none"
+							/>
+							<p className="text-xs text-gray-400 mt-1.5">How often this source is checked (900s = 15 minutes).</p>
+						</div>
+
+						<Button type="submit" icon={IconPlus} disabled={submitting} className="w-full">
+							{submitting ? 'Adding…' : 'Add Source'}
+						</Button>
+					</form>
+				</Card>
+
+				<Card title="All Sources" icon={IconRss}>
+					{loading && <LoadingState label="Loading sources…" />}
+
+					{!loading && sources.length === 0 && (
+						<EmptyState icon={IconRss} title="No sources yet" description="Add a feed or API endpoint to start aggregating content." />
+					)}
+
+					{!loading && sources.length > 0 && (
+						<div className="overflow-x-auto -mx-6">
+							<table className="w-full text-left text-sm">
+								<thead>
+									<tr className="text-xs uppercase tracking-wide text-gray-400 border-b border-gray-100">
+										<th className="py-2.5 px-6 font-semibold">Name</th>
+										<th className="py-2.5 px-3 font-semibold">Type</th>
+										<th className="py-2.5 px-3 font-semibold">Status</th>
+										<th className="py-2.5 px-3 font-semibold">Last Fetched</th>
+										<th className="py-2.5 px-6"></th>
+									</tr>
+								</thead>
+								<tbody>
+									{sources.map((source) => {
+										const status = sourceStatus(source.status);
+										const TypeIcon = source.type === 'api' ? IconGlobe : IconRss;
+										return (
+											<tr key={source.id} className="border-b border-gray-50 hover:bg-gray-50/70 transition-colors">
+												<td className="py-3 px-6 font-medium text-gray-800">{source.name}</td>
+												<td className="py-3 px-3">
+													<Badge color="indigo" icon={TypeIcon}>
+														{source.type}
+													</Badge>
+												</td>
+												<td className="py-3 px-3">
+													<Badge color={status.color}>{status.label}</Badge>
+												</td>
+												<td className="py-3 px-3 text-gray-500 whitespace-nowrap">
+													<span className="inline-flex items-center gap-1.5">
+														<IconClock className="w-3.5 h-3.5 text-gray-300" />
+														{source.last_fetched_at || 'Never'}
+													</span>
+												</td>
+												<td className="py-3 px-6 text-right">
+													<Button variant="ghost" size="sm" icon={IconTrash} onClick={() => handle_delete(source.id)}>
+														Delete
+													</Button>
+												</td>
+											</tr>
+										);
+									})}
+								</tbody>
+							</table>
+						</div>
+					)}
+				</Card>
 			</div>
-		</div>
+		</PageShell>
 	);
 };
 
