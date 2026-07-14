@@ -92,13 +92,11 @@ const Logs = () => {
 			</Card>
 
 			<Card className="mb-4">
-				{loading && <LoadingState label="Loading logs…" />}
-
 				{!loading && logs.length === 0 && (
 					<EmptyState icon={IconDocumentText} title="No log entries" description="No events match these filters." />
 				)}
 
-				{!loading && logs.length > 0 && (
+				{(loading || logs.length > 0) && (
 					<div className="overflow-x-auto -mx-6">
 						<table className="w-full text-left text-sm">
 							<thead>
@@ -113,7 +111,11 @@ const Logs = () => {
 								</tr>
 							</thead>
 							<tbody>
-								{logs.map((log) => {
+								{loading &&
+									Array.from({ length: 8 }).map((_, i) => <TableRowSkeleton key={i} columns={7} />)}
+
+								{!loading &&
+									logs.map((log) => {
 									const resolution = resolutionStatus(log.resolution);
 									return (
 										<tr key={log.log_id} className="border-b border-gray-50 hover:bg-gray-50/70 transition-colors">
