@@ -205,33 +205,39 @@ const Sources = () => {
 
 									{!loading &&
 										sources.map((source) => {
-										const status = sourceStatus(source.status);
-										const TypeIcon = source.type === 'api' ? IconGlobe : IconRss;
-										return (
-											<tr key={source.id} className="border-b border-gray-50 hover:bg-gray-50/70 transition-colors">
-												<td className="py-3 px-6 font-medium text-gray-800">{source.name}</td>
-												<td className="py-3 px-3">
-													<Badge color="indigo" icon={TypeIcon}>
-														{source.type}
-													</Badge>
-												</td>
-												<td className="py-3 px-3">
-													<Badge color={status.color}>{status.label}</Badge>
-												</td>
-												<td className="py-3 px-3 text-gray-500 whitespace-nowrap">
-													<span className="inline-flex items-center gap-1.5">
-														<IconClock className="w-3.5 h-3.5 text-gray-300" />
-														{source.last_fetched_at || 'Never'}
-													</span>
-												</td>
-												<td className="py-3 px-6 text-right">
-													<Button variant="ghost" size="sm" icon={IconTrash} onClick={() => handle_delete(source.id)}>
-														Delete
-													</Button>
-												</td>
-											</tr>
-										);
-									})}
+											const status = sourceStatus(source.status);
+											const TypeIcon = source.type === 'api' ? IconGlobe : IconRss;
+											return (
+												<tr key={source.id} className="border-b border-gray-50 hover:bg-gray-50/70 transition-colors">
+													<td className="py-3 px-6 font-medium text-gray-800">{source.name}</td>
+													<td className="py-3 px-3">
+														<Badge color="indigo" icon={TypeIcon}>
+															{source.type}
+														</Badge>
+													</td>
+													<td className="py-3 px-3">
+														<Badge color={status.color}>{status.label}</Badge>
+													</td>
+													<td className="py-3 px-3 text-gray-500 whitespace-nowrap">
+														<span className="inline-flex items-center gap-1.5">
+															<IconClock className="w-3.5 h-3.5 text-gray-300" />
+															{source.last_fetched_at || 'Never'}
+														</span>
+													</td>
+													<td className="py-3 px-6 text-right">
+														<Button
+															variant="ghost"
+															size="sm"
+															icon={IconTrash}
+															loading={deletingId === source.id}
+															onClick={() => handle_delete(source.id)}
+														>
+															Delete
+														</Button>
+													</td>
+												</tr>
+											);
+										})}
 								</tbody>
 							</table>
 						</div>
