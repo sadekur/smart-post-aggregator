@@ -15,6 +15,8 @@ class Deactivator {
 
 		$deactivater->remove_db_version();
 		$deactivater->remove_cron();
+
+		flush_rewrite_rules();
 	}
 
 	/**
