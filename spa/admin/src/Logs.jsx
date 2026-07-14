@@ -116,43 +116,43 @@ const Logs = () => {
 
 								{!loading &&
 									logs.map((log) => {
-									const resolution = resolutionStatus(log.resolution);
-									return (
-										<tr key={log.log_id} className="border-b border-gray-50 hover:bg-gray-50/70 transition-colors">
-											<td className="py-3 px-6 whitespace-nowrap text-gray-500">{log.created_at}</td>
-											<td className="py-3 px-3 max-w-[220px]">
-												<a
-													href={log.new_post.link}
-													target="_blank"
-													rel="noreferrer"
-													className="text-gray-800 hover:text-indigo-600 font-medium line-clamp-1"
-													dangerouslySetInnerHTML={{ __html: log.new_post.title }}
-												></a>
-											</td>
-											<td className="py-3 px-3 max-w-[220px]">
-												{log.matched_post ? (
+										const resolution = resolutionStatus(log.resolution);
+										return (
+											<tr key={log.log_id} className="border-b border-gray-50 hover:bg-gray-50/70 transition-colors">
+												<td className="py-3 px-6 whitespace-nowrap text-gray-500">{log.created_at}</td>
+												<td className="py-3 px-3 max-w-[220px]">
 													<a
-														href={log.matched_post.link}
+														href={log.new_post.link}
 														target="_blank"
 														rel="noreferrer"
 														className="text-gray-800 hover:text-indigo-600 font-medium line-clamp-1"
-														dangerouslySetInnerHTML={{ __html: log.matched_post.title }}
+														dangerouslySetInnerHTML={{ __html: log.new_post.title }}
 													></a>
-												) : (
-													<span className="text-gray-300 italic">—</span>
-												)}
-											</td>
-											<td className="py-3 px-3">
-												<Badge color={scoreColor(log.score)}>{log.score}%</Badge>
-											</td>
-											<td className="py-3 px-3 text-gray-500">{log.algorithm}</td>
-											<td className="py-3 px-3">
-												<Badge color={resolution.color}>{resolution.label}</Badge>
-											</td>
-											<td className="py-3 px-6 text-gray-500">{log.resolved_by || <span className="text-gray-300 italic">—</span>}</td>
-										</tr>
-									);
-								})}
+												</td>
+												<td className="py-3 px-3 max-w-[220px]">
+													{log.matched_post ? (
+														<a
+															href={log.matched_post.link}
+															target="_blank"
+															rel="noreferrer"
+															className="text-gray-800 hover:text-indigo-600 font-medium line-clamp-1"
+															dangerouslySetInnerHTML={{ __html: log.matched_post.title }}
+														></a>
+													) : (
+														<span className="text-gray-300 italic">—</span>
+													)}
+												</td>
+												<td className="py-3 px-3">
+													<Badge color={scoreColor(log.score)}>{log.score}%</Badge>
+												</td>
+												<td className="py-3 px-3 text-gray-500">{log.algorithm}</td>
+												<td className="py-3 px-3">
+													<Badge color={resolution.color}>{resolution.label}</Badge>
+												</td>
+												<td className="py-3 px-6 text-gray-500">{log.resolved_by || <span className="text-gray-300 italic">—</span>}</td>
+											</tr>
+										);
+									})}
 							</tbody>
 						</table>
 					</div>
