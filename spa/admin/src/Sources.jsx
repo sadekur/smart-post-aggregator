@@ -183,13 +183,11 @@ const Sources = () => {
 				</Card>
 
 				<Card title="All Sources" icon={IconRss}>
-					{loading && <LoadingState label="Loading sources…" />}
-
 					{!loading && sources.length === 0 && (
 						<EmptyState icon={IconRss} title="No sources yet" description="Add a feed or API endpoint to start aggregating content." />
 					)}
 
-					{!loading && sources.length > 0 && (
+					{(loading || sources.length > 0) && (
 						<div className="overflow-x-auto -mx-6">
 							<table className="w-full text-left text-sm">
 								<thead>
@@ -202,7 +200,11 @@ const Sources = () => {
 									</tr>
 								</thead>
 								<tbody>
-									{sources.map((source) => {
+									{loading &&
+										Array.from({ length: 5 }).map((_, i) => <TableRowSkeleton key={i} columns={5} />)}
+
+									{!loading &&
+										sources.map((source) => {
 										const status = sourceStatus(source.status);
 										const TypeIcon = source.type === 'api' ? IconGlobe : IconRss;
 										return (
