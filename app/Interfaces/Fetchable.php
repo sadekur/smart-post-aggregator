@@ -14,7 +14,8 @@ interface Fetchable {
 	 * @param object $source Row from the `spa_sources` table.
 	 * @return array[]|\WP_Error Array of normalized items — each with keys
 	 *                           `external_id`, `title`, `content`, `link`,
-	 *                           `published_at` — or a WP_Error on failure.
+	 *                           `published_at`, `image` (nullable) — or a
+	 *                           WP_Error on failure.
 	 */
 	public function fetch( $source );
 }
