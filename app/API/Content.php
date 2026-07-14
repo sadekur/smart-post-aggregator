@@ -6,6 +6,7 @@ defined( 'ABSPATH' ) || exit;
 use WP_Query;
 use SmartPostAggregator\Traits\Rest;
 use SmartPostAggregator\Config\PostType;
+use SmartPostAggregator\Helpers\Utility;
 
 class Content {
 
