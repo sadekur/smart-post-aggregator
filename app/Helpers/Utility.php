@@ -83,6 +83,25 @@ class Utility {
 		}
 	}
 
+	/**
+	 * Resolves the thumbnail to show for an aggregated `spa_content` post: a
+	 * native featured image if one was ever attached, otherwise the source's
+	 * own hotlinked image URL captured at fetch time.
+	 *
+	 * @param int $post_id
+	 * @return string|null
+	 */
+	public static function get_thumbnail_url( $post_id ) {
+
+		$native = get_the_post_thumbnail_url( $post_id, 'thumbnail' );
+
+		if ( $native ) {
+			return $native;
+		}
+
+		return get_post_meta( $post_id, \SmartPostAggregator\Config\PostType::THUMBNAIL_META_KEY, true ) ?: null;
+	}
+
 	public static function get_option( $option, $section, $field, $default = '' ) {
 
 		$key     = "smart-post-aggregator-{$option}-{$section}";
