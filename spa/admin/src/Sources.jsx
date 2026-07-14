@@ -176,7 +176,7 @@ const Sources = () => {
 							<p className="text-xs text-gray-400 mt-1.5">How often this source is checked (900s = 15 minutes).</p>
 						</div>
 
-						<Button type="submit" icon={IconPlus} disabled={submitting} className="w-full">
+						<Button type="submit" icon={IconPlus} loading={submitting} className="w-full">
 							{submitting ? 'Adding…' : 'Add Source'}
 						</Button>
 					</form>
