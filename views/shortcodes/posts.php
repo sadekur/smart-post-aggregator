@@ -21,6 +21,7 @@ defined( 'ABSPATH' ) || exit;
 				$query->the_post();
 				?>
 				<article class="spa-posts-item group flex flex-col overflow-hidden rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200">
+					<?php $spa_thumbnail_url = \SmartPostAggregator\Helpers\Utility::get_thumbnail_url( get_the_ID() ); ?>
 					<a href="<?php the_permalink(); ?>" class="spa-posts-thumbnail block aspect-[16/9] overflow-hidden bg-slate-100" tabindex="-1">
 						<?php if ( has_post_thumbnail() ) : ?>
 							<?php
@@ -29,6 +30,13 @@ defined( 'ABSPATH' ) || exit;
 								array( 'class' => 'w-full h-full object-cover group-hover:scale-105 transition-transform duration-300' )
 							);
 							?>
+						<?php elseif ( $spa_thumbnail_url ) : ?>
+							<img
+								src="<?php echo esc_url( $spa_thumbnail_url ); ?>"
+								alt=""
+								loading="lazy"
+								class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+							/>
 						<?php else : ?>
 							<div class="w-full h-full flex items-center justify-center text-slate-300">
 								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" class="w-10 h-10">
