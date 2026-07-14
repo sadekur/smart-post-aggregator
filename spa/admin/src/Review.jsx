@@ -83,9 +83,11 @@ const Review = () => {
 			<PageHeader icon={IconInbox} title="Review" subtitle="Possible duplicates waiting on a manual decision" />
 
 			{loading && (
-				<Card>
-					<LoadingState label="Loading review queue…" />
-				</Card>
+				<div className="space-y-4">
+					{Array.from({ length: 2 }).map((_, i) => (
+						<ReviewCardSkeleton key={i} />
+					))}
+				</div>
 			)}
 
 			{!loading && items.length === 0 && (
