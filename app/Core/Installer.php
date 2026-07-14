@@ -18,6 +18,12 @@ class Installer {
 			$installer->create_tables();
 			$installer->update_db_version();
 		}
+
+		// The `spa_content` CPT (registered on `init`) is already in memory by
+		// the time this activation-hook callback runs, so its rewrite rules are
+		// picked up here. Without this, single-post URLs 404 until something
+		// else happens to flush rewrite rules (e.g. visiting Settings > Permalinks).
+		flush_rewrite_rules();
 	}
 
 	/**
