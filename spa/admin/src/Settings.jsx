@@ -189,7 +189,7 @@ const Settings = () => {
 						</div>
 
 						<div className="pt-2 border-t border-gray-100">
-							<Button type="submit" disabled={saving}>
+							<Button type="submit" loading={saving}>
 								{saving ? 'Saving…' : 'Save Settings'}
 							</Button>
 						</div>
