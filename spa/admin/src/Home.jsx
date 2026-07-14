@@ -189,7 +189,13 @@ const Home = () => {
 				)}
 			</Card>
 
-			<Pagination currentPage={currentPage} totalPages={totalPages} onPrevious={handle_previous} onNext={handle_next} />
+			<Pagination
+				currentPage={currentPage}
+				totalPages={totalPages}
+				onPrevious={handle_previous}
+				onNext={handle_next}
+				loading={loading}
+			/>
 		</PageShell>
 	);
 };
