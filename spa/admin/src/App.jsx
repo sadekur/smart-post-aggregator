@@ -72,7 +72,7 @@ const App = () => {
 	}, [activeTab]);
 
 	return (
-		<div className="min-h-screen bg-gray-100">
+		<div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
 			{activeTab === '/home' && <Home />}
 			{activeTab === '/sources' && <Sources />}
 			{activeTab === '/review' && <Review />}
