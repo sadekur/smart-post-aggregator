@@ -1,7 +1,7 @@
 module.exports = {
     content: [
         './app/**/*.php',
-        './views/**/*.html',
+        './views/**/*.php',
         './spa/public/src/**/*.jsx',
         './spa/admin/src/**/*.jsx',
     ],
