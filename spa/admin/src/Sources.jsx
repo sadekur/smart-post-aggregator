@@ -80,14 +80,17 @@ const Sources = () => {
 	};
 
 	const handle_delete = async (id) => {
+		setDeletingId(id);
 		try {
 			await fetch(`${SPA_PLUGIN_ADMIN.api_base}/sources/${id}`, {
 				method: 'DELETE',
 				headers: { 'X-WP-Nonce': SPA_PLUGIN_ADMIN.nonce },
 			});
-			fetch_sources();
+			await fetch_sources();
 		} catch (err) {
 			console.error('Error deleting source:', err);
+		} finally {
+			setDeletingId(null);
 		}
 	};
 
