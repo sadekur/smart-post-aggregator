@@ -79,7 +79,14 @@ const Settings = () => {
 			<PageHeader icon={IconSliders} title="Settings" subtitle="Tune how aggressively duplicate content gets flagged" />
 
 			<Card>
-				{loading && <LoadingState label="Loading settings…" />}
+				{loading && (
+					<div className="space-y-6">
+						<FieldSkeleton />
+						<FieldSkeleton />
+						<FieldSkeleton />
+						<FieldSkeleton />
+					</div>
+				)}
 
 				{!loading && (
 					<form onSubmit={handle_submit} className="space-y-6">
