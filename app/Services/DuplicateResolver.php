@@ -95,6 +95,12 @@ class DuplicateResolver {
 
 			if ( $new_thumbnail ) {
 				set_post_thumbnail( $log->matched_post_id, $new_thumbnail );
+			} elseif ( ! get_post_meta( $log->matched_post_id, PostType::THUMBNAIL_META_KEY, true ) ) {
+				$new_thumbnail_url = get_post_meta( $log->new_post_id, PostType::THUMBNAIL_META_KEY, true );
+
+				if ( $new_thumbnail_url ) {
+					update_post_meta( $log->matched_post_id, PostType::THUMBNAIL_META_KEY, $new_thumbnail_url );
+				}
 			}
 		}
 
