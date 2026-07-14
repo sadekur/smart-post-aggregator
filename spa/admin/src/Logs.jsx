@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { IconDocumentText, IconFilter, IconCalendar } from './components/Icons';
+import { PageShell, PageHeader, Card, Badge, EmptyState, LoadingState, Pagination, resolutionStatus, scoreColor } from './components/UI';
 
 const Logs = () => {
 	const [logs, setLogs] = useState([]);
@@ -46,16 +48,16 @@ const Logs = () => {
 	};
 
 	return (
-		<div className="min-h-screen bg-gray-100 flex flex-col items-center py-8">
-			<div className="w-full max-w-4xl bg-white shadow-md rounded-lg p-6 mb-4">
-				<h3 className="text-lg font-semibold mb-4">Duplicate Detection Logs</h3>
+		<PageShell maxWidth="max-w-5xl">
+			<PageHeader icon={IconDocumentText} title="Logs" subtitle="Full audit trail of every duplicate-detection event" />
 
-				<div className="flex gap-3 mb-4">
+			<Card title="Filters" icon={IconFilter} className="mb-6">
+				<div className="flex flex-wrap gap-3">
 					<select
 						name="resolution"
 						value={filters.resolution}
 						onChange={handle_filter_change}
-						className="border rounded py-2 px-3 text-gray-700"
+						className="rounded-lg border border-gray-300 py-2 px-3 text-sm text-gray-700 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 focus:outline-none"
 					>
 						<option value="">All resolutions</option>
 						<option value="queued">Pending review</option>
@@ -65,96 +67,103 @@ const Logs = () => {
 						<option value="approved">Approved as unique</option>
 					</select>
 
-					<input
-						type="date"
-						name="date_from"
-						value={filters.date_from}
-						onChange={handle_filter_change}
-						className="border rounded py-2 px-3 text-gray-700"
-					/>
+					<label className="flex items-center gap-2 rounded-lg border border-gray-300 py-2 px-3 text-sm text-gray-500 shadow-sm">
+						<IconCalendar className="w-4 h-4 text-gray-400" />
+						<input
+							type="date"
+							name="date_from"
+							value={filters.date_from}
+							onChange={handle_filter_change}
+							className="text-gray-700 focus:outline-none"
+						/>
+					</label>
 
-					<input
-						type="date"
-						name="date_to"
-						value={filters.date_to}
-						onChange={handle_filter_change}
-						className="border rounded py-2 px-3 text-gray-700"
-					/>
+					<label className="flex items-center gap-2 rounded-lg border border-gray-300 py-2 px-3 text-sm text-gray-500 shadow-sm">
+						<IconCalendar className="w-4 h-4 text-gray-400" />
+						<input
+							type="date"
+							name="date_to"
+							value={filters.date_to}
+							onChange={handle_filter_change}
+							className="text-gray-700 focus:outline-none"
+						/>
+					</label>
 				</div>
+			</Card>
 
-				{loading && <p className="text-gray-500">Loading...</p>}
+			<Card className="mb-4">
+				{loading && <LoadingState label="Loading logs…" />}
 
 				{!loading && logs.length === 0 && (
-					<p className="text-gray-500 text-center py-4">No log entries match these filters.</p>
+					<EmptyState icon={IconDocumentText} title="No log entries" description="No events match these filters." />
 				)}
 
 				{!loading && logs.length > 0 && (
-					<table className="w-full text-left text-sm">
-						<thead>
-							<tr className="border-b">
-								<th className="py-2">Date</th>
-								<th className="py-2">New Post</th>
-								<th className="py-2">Matched Post</th>
-								<th className="py-2">Score</th>
-								<th className="py-2">Algorithm</th>
-								<th className="py-2">Resolution</th>
-								<th className="py-2">Resolved By</th>
-							</tr>
-						</thead>
-						<tbody>
-							{logs.map((log) => (
-								<tr key={log.log_id} className="border-b">
-									<td className="py-2 whitespace-nowrap">{log.created_at}</td>
-									<td className="py-2">
-										<a
-											href={log.new_post.link}
-											target="_blank"
-											rel="noreferrer"
-											className="text-blue-600 hover:underline"
-											dangerouslySetInnerHTML={{ __html: log.new_post.title }}
-										></a>
-									</td>
-									<td className="py-2">
-										{log.matched_post ? (
-											<a
-												href={log.matched_post.link}
-												target="_blank"
-												rel="noreferrer"
-												className="text-blue-600 hover:underline"
-												dangerouslySetInnerHTML={{ __html: log.matched_post.title }}
-											></a>
-										) : (
-											<span className="text-gray-400 italic">—</span>
-										)}
-									</td>
-									<td className="py-2">{log.score}%</td>
-									<td className="py-2">{log.algorithm}</td>
-									<td className="py-2">{log.resolution}</td>
-									<td className="py-2">{log.resolved_by || <span className="text-gray-400 italic">—</span>}</td>
+					<div className="overflow-x-auto -mx-6">
+						<table className="w-full text-left text-sm">
+							<thead>
+								<tr className="text-xs uppercase tracking-wide text-gray-400 border-b border-gray-100">
+									<th className="py-2.5 px-6 font-semibold">Date</th>
+									<th className="py-2.5 px-3 font-semibold">New Post</th>
+									<th className="py-2.5 px-3 font-semibold">Matched Post</th>
+									<th className="py-2.5 px-3 font-semibold">Score</th>
+									<th className="py-2.5 px-3 font-semibold">Algorithm</th>
+									<th className="py-2.5 px-3 font-semibold">Resolution</th>
+									<th className="py-2.5 px-6 font-semibold">Resolved By</th>
 								</tr>
-							))}
-						</tbody>
-					</table>
+							</thead>
+							<tbody>
+								{logs.map((log) => {
+									const resolution = resolutionStatus(log.resolution);
+									return (
+										<tr key={log.log_id} className="border-b border-gray-50 hover:bg-gray-50/70 transition-colors">
+											<td className="py-3 px-6 whitespace-nowrap text-gray-500">{log.created_at}</td>
+											<td className="py-3 px-3 max-w-[220px]">
+												<a
+													href={log.new_post.link}
+													target="_blank"
+													rel="noreferrer"
+													className="text-gray-800 hover:text-indigo-600 font-medium line-clamp-1"
+													dangerouslySetInnerHTML={{ __html: log.new_post.title }}
+												></a>
+											</td>
+											<td className="py-3 px-3 max-w-[220px]">
+												{log.matched_post ? (
+													<a
+														href={log.matched_post.link}
+														target="_blank"
+														rel="noreferrer"
+														className="text-gray-800 hover:text-indigo-600 font-medium line-clamp-1"
+														dangerouslySetInnerHTML={{ __html: log.matched_post.title }}
+													></a>
+												) : (
+													<span className="text-gray-300 italic">—</span>
+												)}
+											</td>
+											<td className="py-3 px-3">
+												<Badge color={scoreColor(log.score)}>{log.score}%</Badge>
+											</td>
+											<td className="py-3 px-3 text-gray-500">{log.algorithm}</td>
+											<td className="py-3 px-3">
+												<Badge color={resolution.color}>{resolution.label}</Badge>
+											</td>
+											<td className="py-3 px-6 text-gray-500">{log.resolved_by || <span className="text-gray-300 italic">—</span>}</td>
+										</tr>
+									);
+								})}
+							</tbody>
+						</table>
+					</div>
 				)}
-			</div>
+			</Card>
 
-			<div className="flex justify-between w-full max-w-4xl">
-				<button
-					className="px-4 py-2 bg-gray-300 text-gray-700 rounded disabled:opacity-50"
-					onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-					disabled={currentPage === 1}
-				>
-					Previous
-				</button>
-				<button
-					className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 disabled:opacity-50"
-					onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
-					disabled={currentPage >= totalPages}
-				>
-					Next
-				</button>
-			</div>
-		</div>
+			<Pagination
+				currentPage={currentPage}
+				totalPages={totalPages}
+				onPrevious={() => setCurrentPage((p) => Math.max(1, p - 1))}
+				onNext={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+			/>
+		</PageShell>
 	);
 };
 
