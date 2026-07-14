@@ -67,12 +67,22 @@ const BUTTON_SIZES = {
 	md: 'px-4 py-2.5 text-sm gap-2',
 };
 
-export const Button = ({ variant = 'primary', size = 'md', icon: Icon, className = '', children, ...props }) => (
+export const Button = ({
+	variant = 'primary',
+	size = 'md',
+	icon: Icon,
+	loading = false,
+	disabled = false,
+	className = '',
+	children,
+	...props
+}) => (
 	<button
 		className={`inline-flex items-center justify-center font-semibold rounded-lg transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed ${BUTTON_SIZES[size]} ${BUTTON_VARIANTS[variant]} ${className}`}
+		disabled={disabled || loading}
 		{...props}
 	>
-		{Icon && <Icon className="w-4 h-4" />}
+		{loading ? <Spinner className="w-4 h-4" /> : Icon && <Icon className="w-4 h-4" />}
 		{children}
 	</button>
 );
