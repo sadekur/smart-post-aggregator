@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { IconDocumentText, IconFilter, IconCalendar } from './components/Icons';
-import { PageShell, PageHeader, Card, Badge, EmptyState, LoadingState, Pagination, resolutionStatus, scoreColor } from './components/UI';
+import { PageShell, PageHeader, Card, Badge, EmptyState, TableRowSkeleton, Pagination, resolutionStatus, scoreColor } from './components/UI';
 
 const Logs = () => {
 	const [logs, setLogs] = useState([]);
