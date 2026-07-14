@@ -117,17 +117,22 @@ const Review = () => {
 							</div>
 
 							<div className="flex flex-wrap gap-2">
-								{ACTIONS.map((action) => (
-									<Button
-										key={action.key}
-										size="sm"
-										variant={action.variant}
-										icon={action.icon}
-										onClick={() => handle_action(item.log_id, action.key)}
-									>
-										{action.label}
-									</Button>
-								))}
+								{ACTIONS.map((action) => {
+									const pending_key = `${item.log_id}:${action.key}`;
+									return (
+										<Button
+											key={action.key}
+											size="sm"
+											variant={action.variant}
+											icon={action.icon}
+											loading={resolving === pending_key}
+											disabled={resolving !== null && resolving !== pending_key}
+											onClick={() => handle_action(item.log_id, action.key)}
+										>
+											{action.label}
+										</Button>
+									);
+								})}
 							</div>
 						</Card>
 					))}
