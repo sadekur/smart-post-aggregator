@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { IconSliders } from './components/Icons';
-import { PageShell, PageHeader, Card, Button, Alert, LoadingState } from './components/UI';
+import { PageShell, PageHeader, Card, Button, Alert, FieldSkeleton } from './components/UI';
 
 const Settings = () => {
 	const [form, setForm] = useState({
