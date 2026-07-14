@@ -13,6 +13,7 @@ const Sources = () => {
 	const [form, setForm] = useState({ name: '', type: 'rss', url: '', fetch_interval: 900 });
 	const [error, setError] = useState('');
 	const [submitting, setSubmitting] = useState(false);
+	const [deletingId, setDeletingId] = useState(null);
 
 	const fetch_sources = async () => {
 		setLoading(true);
