@@ -15,6 +15,14 @@ class PostType {
 
 	const POST_TYPE = 'spa_content';
 
+	/**
+	 * Feed/API items are hotlinked for their thumbnail rather than sideloaded
+	 * into the media library (avoids adding a remote-file-download step, with
+	 * its own SSRF/storage surface, to the cron sweep) — so this stores the
+	 * source's own image URL directly instead of a native attachment ID.
+	 */
+	const THUMBNAIL_META_KEY = '_spa_thumbnail_url';
+
 	public function __construct() {
 		$this->action( 'init', array( $this, 'register' ) );
 	}
