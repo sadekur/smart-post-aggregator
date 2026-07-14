@@ -105,6 +105,10 @@ class ContentAggregator {
 		update_post_meta( $post_id, '_spa_content_hash', hash( 'sha256', wp_strip_all_tags( $content ) ) );
 		update_post_meta( $post_id, '_spa_fetched_at', current_time( 'mysql' ) );
 
+		if ( ! empty( $item['image'] ) && wp_http_validate_url( $item['image'] ) ) {
+			update_post_meta( $post_id, PostType::THUMBNAIL_META_KEY, esc_url_raw( $item['image'] ) );
+		}
+
 		( new DuplicateDetector() )->detect( $post_id );
 	}
 }
