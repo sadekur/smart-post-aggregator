@@ -6,6 +6,7 @@ defined( 'ABSPATH' ) || exit;
 use SmartPostAggregator\Traits\Rest;
 use SmartPostAggregator\Models\DuplicateLog;
 use SmartPostAggregator\Services\DuplicateResolver;
+use SmartPostAggregator\Helpers\Utility;
 
 /**
  * Backs the Review inbox: lists posts still awaiting a manual decision and
