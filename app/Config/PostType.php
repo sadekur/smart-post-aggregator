@@ -141,6 +141,15 @@ class PostType {
 				'sanitize_callback' => 'sanitize_text_field',
 			)
 		);
+
+		register_post_meta(
+			self::POST_TYPE,
+			self::THUMBNAIL_META_KEY,
+			$common_args + array(
+				'type'              => 'string',
+				'sanitize_callback' => 'esc_url_raw',
+			)
+		);
 	}
 
 	/**
