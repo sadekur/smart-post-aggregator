@@ -9,7 +9,7 @@ import {
 	IconExternalLink,
 	IconImage,
 } from './components/Icons';
-import { PageShell, PageHeader, Card, StatTile, EmptyState, LoadingState, Pagination } from './components/UI';
+import { PageShell, PageHeader, Card, StatTile, StatTileSkeleton, ListRowSkeleton, EmptyState, Pagination } from './components/UI';
 
 const Home = () => {
 	const [posts, setPosts] = useState([]);
@@ -19,12 +19,14 @@ const Home = () => {
 		return page_from_hash ? parseInt(page_from_hash[1], 10) : 1;
 	});
 	const [stats, setStats] = useState(null);
+	const [statsLoading, setStatsLoading] = useState(true);
 	const [loading, setLoading] = useState(true);
 
 	const posts_per_page = 8;
 
 	useEffect(() => {
 		const fetch_stats = async () => {
+			setStatsLoading(true);
 			try {
 				const response = await fetch(`${SPA_PLUGIN_ADMIN.api_base}/stats`, {
 					headers: { 'X-WP-Nonce': SPA_PLUGIN_ADMIN.nonce },
@@ -33,6 +35,8 @@ const Home = () => {
 				setStats(data);
 			} catch (error) {
 				console.error('Error fetching stats:', error);
+			} finally {
+				setStatsLoading(false);
 			}
 		};
 
