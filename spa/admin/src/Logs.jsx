@@ -164,6 +164,7 @@ const Logs = () => {
 				totalPages={totalPages}
 				onPrevious={() => setCurrentPage((p) => Math.max(1, p - 1))}
 				onNext={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+				loading={loading}
 			/>
 		</PageShell>
 	);
