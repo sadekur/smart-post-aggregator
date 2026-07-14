@@ -94,7 +94,15 @@ const Home = () => {
 				subtitle="Overview of aggregated content and duplicate-detection activity"
 			/>
 
-			{stats && (
+			{statsLoading && (
+				<div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-6">
+					{Array.from({ length: 6 }).map((_, i) => (
+						<StatTileSkeleton key={i} />
+					))}
+				</div>
+			)}
+
+			{!statsLoading && stats && (
 				<div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-6">
 					<StatTile icon={IconCalendar} color="indigo" label="Aggregated Today" value={stats.aggregated_today} />
 					<StatTile icon={IconChartBar} color="sky" label="Aggregated This Week" value={stats.aggregated_week} />
@@ -117,7 +125,15 @@ const Home = () => {
 				</div>
 			)}
 
-			{stats && stats.recent_activity.length > 0 && (
+			{statsLoading && (
+				<Card title="Recent Activity" icon={IconAlertTriangle} className="mb-6">
+					{Array.from({ length: 3 }).map((_, i) => (
+						<ListRowSkeleton key={i} />
+					))}
+				</Card>
+			)}
+
+			{!statsLoading && stats && stats.recent_activity.length > 0 && (
 				<Card title="Recent Activity" icon={IconAlertTriangle} className="mb-6">
 					<ul className="-my-2">
 						{stats.recent_activity.map((activity) => (
@@ -141,7 +157,8 @@ const Home = () => {
 			)}
 
 			<Card title="Latest Aggregated Content" icon={IconLayers} className="mb-6">
-				{loading && <LoadingState label="Loading content…" />}
+				{loading &&
+					Array.from({ length: 5 }).map((_, i) => <ListRowSkeleton key={i} />)}
 
 				{!loading && posts.length === 0 && (
 					<EmptyState icon={IconLayers} title="No aggregated content yet" description="New items will show up here as sources are fetched." />
