@@ -48,11 +48,48 @@ class RssFetcher implements Fetchable {
 				'content'      => $entry->get_content() ?: $entry->get_description(),
 				'link'         => $entry->get_permalink(),
 				'published_at' => $entry->get_date( 'Y-m-d H:i:s' ) ?: null,
+				'image'        => $this->extract_image( $entry ),
 			);
 		}
 
 		$this->set_cache( $cache_key, $items, (int) $source->fetch_interval );
 
 		return $items;
+	}
+
+	/**
+	 * Finds a thumbnail-worthy image URL for a feed item: `media:thumbnail`
+	 * first, then an image-typed enclosure, then the first `<img>` found in
+	 * the item's own content/description HTML.
+	 *
+	 * @param \SimplePie_Item $entry
+	 * @return string|null
+	 */
+	protected function extract_image( $entry ) {
+
+		$enclosure = $entry->get_enclosure();
+
+		if ( $enclosure ) {
+			$thumbnail = $enclosure->get_thumbnail();
+
+			if ( $thumbnail ) {
+				return $thumbnail;
+			}
+
+			$link = $enclosure->get_link();
+			$type = $enclosure->get_type();
+
+			if ( $link && ( ! $type || 0 === strpos( $type, 'image/' ) ) ) {
+				return $link;
+			}
+		}
+
+		$content = $entry->get_content() ?: $entry->get_description();
+
+		if ( $content && preg_match( '/<img[^>]+src=["\']([^"\']+)["\']/i', $content, $matches ) ) {
+			return $matches[1];
+		}
+
+		return null;
 	}
 }
