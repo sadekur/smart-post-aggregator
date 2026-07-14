@@ -12,6 +12,7 @@ const ACTIONS = [
 const Review = () => {
 	const [items, setItems] = useState([]);
 	const [loading, setLoading] = useState(true);
+	const [resolving, setResolving] = useState(null);
 
 	const fetch_items = async () => {
 		setLoading(true);
