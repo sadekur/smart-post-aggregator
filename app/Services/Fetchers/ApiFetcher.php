@@ -11,7 +11,7 @@ use SmartPostAggregator\Traits\Cache;
  * Fetches a `spa_sources` row of type `api` and normalizes an arbitrary JSON
  * response shape using the field-mapping stored in the source's `config`
  * column (JSON: `items_path`, `id_field`, `title_field`, `content_field`,
- * `link_field`, `published_at_field`).
+ * `link_field`, `published_at_field`, `image_field`).
  */
 class ApiFetcher implements Fetchable {
 
