@@ -59,6 +59,7 @@ class ApiFetcher implements Fetchable {
 				'content'      => (string) $this->field( $row, $config['content_field'] ?? 'content' ),
 				'link'         => (string) $this->field( $row, $config['link_field'] ?? 'link' ),
 				'published_at' => $this->field( $row, $config['published_at_field'] ?? 'published_at' ) ?: null,
+				'image'        => (string) $this->field( $row, $config['image_field'] ?? 'image' ) ?: null,
 			);
 		}
 
