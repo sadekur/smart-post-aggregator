@@ -4,6 +4,7 @@ namespace SmartPostAggregator\Services;
 defined( 'ABSPATH' ) || exit;
 
 use SmartPostAggregator\Models\DuplicateLog;
+use SmartPostAggregator\Config\PostType;
 
 /**
  * Applies a reviewer's decision to a pending `spa_duplicate_log` entry from
