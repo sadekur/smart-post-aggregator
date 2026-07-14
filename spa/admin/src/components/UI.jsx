@@ -120,22 +120,74 @@ export const EmptyState = ({ icon: Icon, title, description }) => (
 	</div>
 );
 
-export const LoadingState = ({ label = 'Loading…' }) => (
-	<div className="flex items-center justify-center gap-2 text-gray-400 py-12">
-		<Spinner />
-		<span className="text-sm">{label}</span>
+export const Skeleton = ({ className = '' }) => <div className={`animate-pulse rounded-md bg-gray-200/80 ${className}`} />;
+
+export const StatTileSkeleton = () => (
+	<div className="rounded-xl bg-white p-5 shadow-sm ring-1 ring-gray-200">
+		<Skeleton className="w-10 h-10 rounded-lg mb-3" />
+		<Skeleton className="w-14 h-6 mb-2" />
+		<Skeleton className="w-24 h-3" />
 	</div>
 );
 
-export const Pagination = ({ currentPage, totalPages, onPrevious, onNext }) => (
+export const ListRowSkeleton = () => (
+	<div className="flex items-center gap-3 py-2.5 border-b border-gray-100 last:border-0">
+		<Skeleton className="w-9 h-9 rounded-lg shrink-0" />
+		<Skeleton className="h-3.5 flex-1 max-w-xs" />
+	</div>
+);
+
+export const TableRowSkeleton = ({ columns = 4 }) => (
+	<tr className="border-b border-gray-50">
+		{Array.from({ length: columns }).map((_, i) => (
+			<td key={i} className={`py-3 ${i === 0 ? 'pl-6 pr-3' : i === columns - 1 ? 'pl-3 pr-6' : 'px-3'}`}>
+				<Skeleton className="h-3.5 w-full max-w-[140px]" />
+			</td>
+		))}
+	</tr>
+);
+
+export const ReviewCardSkeleton = () => (
+	<Card>
+		<div className="flex items-center justify-between gap-3 mb-4">
+			<Skeleton className="w-24 h-5 rounded-full" />
+			<Skeleton className="w-16 h-5 rounded-full" />
+		</div>
+		<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
+			{[0, 1].map((i) => (
+				<div key={i} className="rounded-lg bg-gray-50/70 p-3">
+					<Skeleton className="w-16 h-3 mb-3" />
+					<div className="flex items-center gap-3">
+						<Skeleton className="w-11 h-11 rounded-lg shrink-0" />
+						<Skeleton className="h-3.5 flex-1" />
+					</div>
+				</div>
+			))}
+		</div>
+		<div className="flex flex-wrap gap-2">
+			{Array.from({ length: 4 }).map((_, i) => (
+				<Skeleton key={i} className="h-8 w-32 rounded-lg" />
+			))}
+		</div>
+	</Card>
+);
+
+export const FieldSkeleton = () => (
+	<div>
+		<Skeleton className="w-32 h-3 mb-2" />
+		<Skeleton className="w-full h-10 rounded-lg" />
+	</div>
+);
+
+export const Pagination = ({ currentPage, totalPages, onPrevious, onNext, loading = false }) => (
 	<div className="flex items-center justify-between">
-		<Button variant="secondary" size="sm" icon={IconArrowLeft} onClick={onPrevious} disabled={currentPage <= 1}>
+		<Button variant="secondary" size="sm" icon={IconArrowLeft} onClick={onPrevious} disabled={currentPage <= 1 || loading}>
 			Previous
 		</Button>
 		<span className="text-xs font-medium text-gray-400">
 			Page {currentPage} of {totalPages}
 		</span>
-		<Button variant="primary" size="sm" onClick={onNext} disabled={currentPage >= totalPages}>
+		<Button variant="primary" size="sm" onClick={onNext} disabled={currentPage >= totalPages || loading}>
 			Next
 			<IconArrowRight className="w-4 h-4" />
 		</Button>
