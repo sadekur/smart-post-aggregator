@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { IconInbox, IconCheckCircle, IconAlertTriangle, IconMerge, IconXCircle, IconImage } from './components/Icons';
-import { PageShell, PageHeader, Card, Badge, Button, EmptyState, LoadingState, scoreColor } from './components/UI';
+import { PageShell, PageHeader, Card, Badge, Button, EmptyState, ReviewCardSkeleton, scoreColor } from './components/UI';
 
 const ACTIONS = [
 	{ key: 'approve_unique', label: 'Approve Unique', variant: 'success', icon: IconCheckCircle },
