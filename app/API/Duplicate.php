@@ -88,7 +88,7 @@ class Duplicate {
 			'title'     => get_the_title( $post ),
 			'excerpt'   => wp_trim_words( wp_strip_all_tags( $post->post_content ), 30 ),
 			'link'      => get_permalink( $post ),
-			'thumbnail' => get_the_post_thumbnail_url( $post, 'thumbnail' ) ?: null,
+			'thumbnail' => Utility::get_thumbnail_url( $post->ID ),
 		);
 	}
 }
