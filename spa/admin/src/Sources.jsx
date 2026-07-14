@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { IconRss, IconGlobe, IconPlus, IconTrash, IconClock } from './components/Icons';
-import { PageShell, PageHeader, Card, Badge, Button, EmptyState, LoadingState, Alert, sourceStatus } from './components/UI';
+import { PageShell, PageHeader, Card, Badge, Button, EmptyState, TableRowSkeleton, Alert, sourceStatus } from './components/UI';
 
 const TYPES = [
 	{ value: 'rss', label: 'RSS Feed', icon: IconRss },
