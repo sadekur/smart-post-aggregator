@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { IconSliders } from './components/Icons';
+import { PageShell, PageHeader, Card, Button, Alert, LoadingState } from './components/UI';
 
 const Settings = () => {
 	const [form, setForm] = useState({
@@ -72,103 +74,122 @@ const Settings = () => {
 		}
 	};
 
-	if (loading) {
-		return (
-			<div className="min-h-screen bg-gray-100 flex items-center justify-center py-8">
-				<p className="text-gray-500">Loading...</p>
-			</div>
-		);
-	}
-
 	return (
-		<div className="min-h-screen bg-gray-100 flex items-center justify-center py-8">
-			<form className="bg-white p-6 rounded-lg shadow-md w-full max-w-lg" onSubmit={handle_submit}>
-				<h3 className="text-lg font-semibold mb-4">Duplicate Detection</h3>
+		<PageShell maxWidth="max-w-2xl">
+			<PageHeader icon={IconSliders} title="Settings" subtitle="Tune how aggressively duplicate content gets flagged" />
 
-				{message && <p className="text-green-600 mb-3">{message}</p>}
-				{error && <p className="text-red-600 mb-3">{error}</p>}
+			<Card>
+				{loading && <LoadingState label="Loading settings…" />}
 
-				<div className="mb-4">
-					<label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="algorithm">
-						Algorithm
-					</label>
-					<select
-						id="algorithm"
-						name="algorithm"
-						value={form.algorithm}
-						onChange={handle_change}
-						className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
-					>
-						<option value="jaccard">Jaccard Similarity</option>
-					</select>
-				</div>
+				{!loading && (
+					<form onSubmit={handle_submit} className="space-y-6">
+						{message && <Alert type="success">{message}</Alert>}
+						{error && <Alert type="error">{error}</Alert>}
 
-				<div className="mb-4">
-					<label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="threshold">
-						Similarity Threshold (%)
-					</label>
-					<input
-						id="threshold"
-						name="threshold"
-						type="number"
-						min="0"
-						max="100"
-						value={form.threshold}
-						onChange={handle_change}
-						className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
-					/>
-					<p className="text-xs text-gray-500 mt-1">
-						Posts scoring at or above this are treated as a possible duplicate.
-					</p>
-				</div>
+						<div>
+							<label className="block text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1.5" htmlFor="algorithm">
+								Algorithm
+							</label>
+							<select
+								id="algorithm"
+								name="algorithm"
+								value={form.algorithm}
+								onChange={handle_change}
+								className="w-full rounded-lg border border-gray-300 py-2.5 px-3 text-sm text-gray-800 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 focus:outline-none"
+							>
+								<option value="jaccard">Jaccard Similarity</option>
+							</select>
+						</div>
 
-				<div className="mb-4">
-					<label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="review_margin">
-						Review Margin (%)
-					</label>
-					<input
-						id="review_margin"
-						name="review_margin"
-						type="number"
-						min="0"
-						max="100"
-						value={form.review_margin}
-						onChange={handle_change}
-						className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
-					/>
-					<p className="text-xs text-gray-500 mt-1">
-						Scores between the threshold and threshold + margin go to manual Review instead of
-						being auto-resolved.
-					</p>
-				</div>
+						<div>
+							<div className="flex items-center justify-between mb-1.5">
+								<label className="text-xs font-semibold uppercase tracking-wide text-gray-500" htmlFor="threshold">
+									Similarity Threshold
+								</label>
+								<span className="text-sm font-bold text-indigo-600">{form.threshold}%</span>
+							</div>
+							<div className="flex items-center gap-3">
+								<input
+									id="threshold"
+									name="threshold"
+									type="range"
+									min="0"
+									max="100"
+									value={form.threshold}
+									onChange={handle_change}
+									className="flex-1 accent-indigo-600"
+								/>
+								<input
+									name="threshold"
+									type="number"
+									min="0"
+									max="100"
+									value={form.threshold}
+									onChange={handle_change}
+									className="w-16 rounded-lg border border-gray-300 py-1.5 px-2 text-sm text-gray-800 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 focus:outline-none"
+								/>
+							</div>
+							<p className="text-xs text-gray-400 mt-1.5">Posts scoring at or above this are treated as a possible duplicate.</p>
+						</div>
 
-				<div className="mb-4">
-					<label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="default_resolution">
-						High-Confidence Duplicates
-					</label>
-					<select
-						id="default_resolution"
-						name="default_resolution"
-						value={form.default_resolution}
-						onChange={handle_change}
-						className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
-					>
-						<option value="mark">Keep, flagged as duplicate</option>
-						<option value="trash">Auto-trash (recoverable)</option>
-					</select>
-				</div>
+						<div>
+							<div className="flex items-center justify-between mb-1.5">
+								<label className="text-xs font-semibold uppercase tracking-wide text-gray-500" htmlFor="review_margin">
+									Review Margin
+								</label>
+								<span className="text-sm font-bold text-indigo-600">{form.review_margin}%</span>
+							</div>
+							<div className="flex items-center gap-3">
+								<input
+									id="review_margin"
+									name="review_margin"
+									type="range"
+									min="0"
+									max="100"
+									value={form.review_margin}
+									onChange={handle_change}
+									className="flex-1 accent-indigo-600"
+								/>
+								<input
+									name="review_margin"
+									type="number"
+									min="0"
+									max="100"
+									value={form.review_margin}
+									onChange={handle_change}
+									className="w-16 rounded-lg border border-gray-300 py-1.5 px-2 text-sm text-gray-800 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 focus:outline-none"
+								/>
+							</div>
+							<p className="text-xs text-gray-400 mt-1.5">
+								Scores between the threshold and threshold + margin go to manual Review instead of being auto-resolved.
+							</p>
+						</div>
 
-				<div className="flex items-center justify-between">
-					<button
-						type="submit"
-						disabled={saving}
-						className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded disabled:opacity-50"
-					>
-						{saving ? 'Saving...' : 'Save Settings'}
-					</button>
-				</div>
-			</form>
-		</div>
+						<div>
+							<label className="block text-xs font-semibold uppercase tracking-wide text-gray-500 mb-1.5" htmlFor="default_resolution">
+								High-Confidence Duplicates
+							</label>
+							<select
+								id="default_resolution"
+								name="default_resolution"
+								value={form.default_resolution}
+								onChange={handle_change}
+								className="w-full rounded-lg border border-gray-300 py-2.5 px-3 text-sm text-gray-800 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 focus:outline-none"
+							>
+								<option value="mark">Keep, flagged as duplicate</option>
+								<option value="trash">Auto-trash (recoverable)</option>
+							</select>
+						</div>
+
+						<div className="pt-2 border-t border-gray-100">
+							<Button type="submit" disabled={saving}>
+								{saving ? 'Saving…' : 'Save Settings'}
+							</Button>
+						</div>
+					</form>
+				)}
+			</Card>
+		</PageShell>
 	);
 };
 
