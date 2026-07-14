@@ -1,6 +1,8 @@
 <?php
 defined( 'ABSPATH' ) || exit;
 
+use SmartPostAggregator\Helpers\Utility;
+
 /** @var \WP_Query $query */
 ?>
 <div class="spa-posts">
