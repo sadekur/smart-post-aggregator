@@ -35,6 +35,7 @@ const Review = () => {
 	}, []);
 
 	const handle_action = async (log_id, action) => {
+		setResolving(`${log_id}:${action}`);
 		try {
 			await fetch(`${SPA_PLUGIN_ADMIN.api_base}/duplicates/${log_id}/resolve`, {
 				method: 'POST',
@@ -47,6 +48,8 @@ const Review = () => {
 			setItems((prev) => prev.filter((item) => item.log_id !== log_id));
 		} catch (err) {
 			console.error('Error resolving duplicate:', err);
+		} finally {
+			setResolving(null);
 		}
 	};
 
